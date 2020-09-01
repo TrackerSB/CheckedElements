@@ -6,7 +6,7 @@ import javafx.beans.binding.BooleanBinding;
 import javafx.beans.property.BooleanProperty;
 import javafx.beans.property.SimpleBooleanProperty;
 import javafx.css.PseudoClass;
-import javafx.scene.control.Control;
+import javafx.scene.Node;
 
 import java.util.logging.Level;
 import java.util.logging.Logger;
@@ -18,7 +18,7 @@ import java.util.logging.Logger;
  * @since 0.1
  * @param <C> The type of the control delegating to this class.
  */
-public class CheckableControlBase<C extends Control & Reportable> extends ReportableBase<C> implements CheckableControl {
+public class CheckableControlBase<C extends Node & Reportable> extends ReportableBase<C> implements CheckableControl {
 
     private static final Logger LOGGER = Logger.getLogger(CheckableControlBase.class.getName());
     private static final PseudoClass CHECKED_PSEUDO_CLASS = PseudoClass.getPseudoClass("checked");

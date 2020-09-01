@@ -10,7 +10,7 @@ import javafx.collections.FXCollections;
 import javafx.collections.ListChangeListener;
 import javafx.collections.ObservableList;
 import javafx.css.PseudoClass;
-import javafx.scene.control.Control;
+import javafx.scene.Node;
 
 /**
  * Contains a basic implementation of {@link Reportable} which may be used for delegation.
@@ -19,7 +19,7 @@ import javafx.scene.control.Control;
  * @param <C> The type of the control delegating to this class.
  * @since 0.1
  */
-public class ReportableBase<C extends Control & Reportable> implements Reportable {
+public class ReportableBase<C extends Node & Reportable> implements Reportable {
 
     private final ReadOnlyBooleanWrapper valid = new ReadOnlyBooleanWrapper(this, "valid");
     private final ObservableList<ObservableBooleanValue> validConditions = FXCollections.observableArrayList();
