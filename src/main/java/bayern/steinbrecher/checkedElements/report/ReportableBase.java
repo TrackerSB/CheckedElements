@@ -1,6 +1,6 @@
 package bayern.steinbrecher.checkedElements.report;
 
-import bayern.steinbrecher.utility.BindingUtility;
+import bayern.steinbrecher.javaUtility.BindingUtility;
 import javafx.beans.binding.BooleanBinding;
 import javafx.beans.property.ReadOnlyBooleanProperty;
 import javafx.beans.property.ReadOnlyBooleanWrapper;

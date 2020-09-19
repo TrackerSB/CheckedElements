@@ -13,7 +13,7 @@ repositories {
 }
 
 dependencies {
-    implementation "bayern.steinbrecher:JavaUtility:0.3"
+    implementation "bayern.steinbrecher:JavaUtility:0.7"
     compileOnly "com.google.errorprone:error_prone_annotation:2.4.0"
 }
 

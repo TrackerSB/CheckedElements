@@ -1,7 +1,7 @@
 package bayern.steinbrecher.checkedElements.buttons;
 
-import bayern.steinbrecher.utility.DialogCreationException;
-import bayern.steinbrecher.utility.DialogUtility;
+import bayern.steinbrecher.javaUtility.DialogCreationException;
+import bayern.steinbrecher.javaUtility.DialogUtility;
 import javafx.application.Platform;
 import javafx.beans.property.SimpleStringProperty;
 import javafx.beans.property.StringProperty;

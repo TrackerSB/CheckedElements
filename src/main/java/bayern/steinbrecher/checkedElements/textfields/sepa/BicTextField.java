@@ -3,7 +3,7 @@ package bayern.steinbrecher.checkedElements.textfields.sepa;
 import bayern.steinbrecher.checkedElements.report.ReportEntry;
 import bayern.steinbrecher.checkedElements.report.ReportType;
 import bayern.steinbrecher.checkedElements.textfields.SpecificRegexTextField;
-import bayern.steinbrecher.utility.SepaUtility;
+import bayern.steinbrecher.javaUtility.SepaUtility;
 import javafx.beans.binding.Bindings;
 import javafx.beans.property.BooleanProperty;
 import javafx.beans.property.SimpleBooleanProperty;
