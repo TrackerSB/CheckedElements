@@ -14,7 +14,7 @@ repositories {
 
 dependencies {
     implementation "bayern.steinbrecher:JavaUtility:0.3"
-    implementation "com.google.errorprone:error_prone_annotation:2.4.0"
+    compileOnly "com.google.errorprone:error_prone_annotation:2.4.0"
 }
 
 compileJava.options.encoding = "UTF-8"

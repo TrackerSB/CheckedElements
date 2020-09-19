@@ -7,9 +7,10 @@ module bayern.steinbrecher.CheckedElements {
     exports bayern.steinbrecher.checkedElements.textfields;
 
     requires bayern.steinbrecher.Utility;
-    requires error.prone.annotation;
     requires java.logging;
     requires java.xml;
     requires javafx.controls;
     requires javafx.fxml;
+
+    requires static error.prone.annotation;
 }
