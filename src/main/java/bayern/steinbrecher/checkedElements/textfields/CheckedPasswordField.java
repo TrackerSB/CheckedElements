@@ -42,7 +42,7 @@ public class CheckedPasswordField extends CheckedTextField {
         setAccessibleRole(AccessibleRole.PASSWORD_FIELD);
         setSkin(new PasswordFieldSkin(this));
         getStyleClass().add("checked-password-field");
-        getStylesheets().add(CheckedPasswordField.class.getResource("checkedPasswordField.css").toExternalForm());
+        getStylesheets().add(CheckedPasswordField.class.getResource("checkedPasswordField.css").getPath());
     }
 
     /**

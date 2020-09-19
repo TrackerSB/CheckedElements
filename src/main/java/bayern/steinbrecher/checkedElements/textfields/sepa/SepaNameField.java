@@ -33,6 +33,6 @@ public class SepaNameField extends CheckedSepaTextField {
     public SepaNameField(int maxColumnCount, String text) {
         super(maxColumnCount, text);
         getStyleClass().add("sepa-name-field");
-        getStylesheets().add(SepaNameField.class.getResource("sepaNameField.css").toExternalForm());
+        getStylesheets().add(SepaNameField.class.getResource("sepaNameField.css").getPath());
     }
 }
