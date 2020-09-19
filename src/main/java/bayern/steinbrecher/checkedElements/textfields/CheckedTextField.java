@@ -78,7 +78,7 @@ public class CheckedTextField extends TextField implements CheckableControl {
 
         setMaxColumnCount(maxColumnCount);
         getStyleClass().add("checked-textfield");
-        getStylesheets().add(CharsetTextField.class.getResource("checkedTextField.css").toExternalForm());
+        getStylesheets().add(getClass().getResource("checkedTextField.css").toExternalForm());
     }
 
     /**
