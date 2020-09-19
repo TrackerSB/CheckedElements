@@ -18,7 +18,8 @@ public enum ReportConditionResult {
         if (graphicResourcePath == null) {
             this.graphic = null;
         } else {
-            Image graphicImage = new Image(graphicResourcePath, ICON_SIZE, ICON_SIZE, true, true);
+            Image graphicImage = new Image(
+                    getClass().getResource(graphicResourcePath).getPath(), ICON_SIZE, ICON_SIZE, true, true);
             this.graphic = new ImageView(graphicImage);
             this.graphic.setSmooth(true);
         }
