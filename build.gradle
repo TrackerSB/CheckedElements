@@ -14,7 +14,11 @@ repositories {
 
 dependencies {
     implementation "bayern.steinbrecher:JavaUtility:0.7"
-    compileOnly "com.google.errorprone:error_prone_annotation:2.4.0"
+    implementation "com.google.errorprone:error_prone_annotation:2.4.0"
+
+    testImplementation "org.junit.jupiter:junit-jupiter-api:5.7.0"
+    testImplementation "org.junit.jupiter:junit-jupiter-migrationsupport:5.7.0"
+    testRuntimeOnly "org.junit.jupiter:junit-jupiter-engine:5.7.0"
 }
 
 compileJava.options.encoding = "UTF-8"
@@ -29,11 +33,20 @@ java {
     withJavadocJar()
 }
 
+test {
+    useJUnitPlatform()
+    jvmArgs += [
+            '--add-exports=org.junit.platform.commons/org.junit.platform.commons.util=ALL-UNNAMED',
+            '--add-exports=org.junit.platform.commons/org.junit.platform.commons.logging=ALL-UNNAMED'
+    ]
+}
+
 javafx {
     version = "14"
     modules = [
             "javafx.controls",
-            "javafx.fxml"
+            "javafx.fxml",
+            "javafx.swing" // NOTE Only required for testing
     ]
 }
 
