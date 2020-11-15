@@ -38,7 +38,7 @@ public enum ReportType {
             this.graphic = null;
         } else {
             Image graphicImage = new Image(
-                    getClass().getResource(graphicResourcePath).getPath(), ICON_SIZE, ICON_SIZE, true, true);
+                    getClass().getResource(graphicResourcePath).toExternalForm(), ICON_SIZE, ICON_SIZE, true, true);
             this.graphic = new ImageView(graphicImage);
             this.graphic.setSmooth(true);
         }
