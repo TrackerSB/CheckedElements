@@ -4,7 +4,6 @@ import bayern.steinbrecher.checkedElements.buttons.HelpButton;
 import bayern.steinbrecher.checkedElements.textfields.NameField;
 import org.junit.jupiter.params.provider.Arguments;
 
-import java.lang.reflect.Constructor;
 import java.lang.reflect.InvocationTargetException;
 import java.util.Collection;
 import java.util.List;
