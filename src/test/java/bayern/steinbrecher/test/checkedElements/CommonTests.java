@@ -1,6 +1,6 @@
 package bayern.steinbrecher.test.checkedElements;
 
-import bayern.steinbrecher.checkedElements.buttons.HelpButton;
+import bayern.steinbrecher.checkedElements.textfields.CheckedPasswordField;
 import bayern.steinbrecher.checkedElements.textfields.CheckedTextField;
 import bayern.steinbrecher.checkedElements.textfields.NameField;
 import bayern.steinbrecher.checkedElements.textfields.sepa.BicTextField;
@@ -47,7 +47,18 @@ public class CommonTests {
 
         List<String> expectedStylesheets = new ArrayList<>();
 
-        // SEPA related text fields
+        // bayern.steinbrecher.checkedElements.textfields
+        if (node instanceof CheckedPasswordField) {
+            expectedStylesheets.add("checkedPasswordField.css");
+        }
+        if (node instanceof CheckedTextField) {
+            expectedStylesheets.add("checkedTextField.css");
+        }
+        if (node instanceof NameField) {
+            expectedStylesheets.add("nameField.css");
+        }
+
+        // bayern.steinbrecher.checkedElements.textfields.sepa
         if(node instanceof BicTextField){
             expectedStylesheets.add("bicTextField.css");
         }
@@ -60,21 +71,6 @@ public class CommonTests {
         if(node instanceof SepaNameField){
             expectedStylesheets.add("sepaNameField.css");
         }
-
-        // Remaining text fields
-        if (node instanceof CheckedTextField) {
-            expectedStylesheets.add("checkedTextField.css");
-        }
-        if (node instanceof NameField) {
-            expectedStylesheets.add("nameField.css");
-        }
-        // TODO
-
-        // Spinners
-        // TODO
-
-        // Remaining ungrouped elements
-        // TODO
 
         assertAll("Check included stylesheets of " + node.getClass().getCanonicalName(),
                 expectedStylesheets.stream()
