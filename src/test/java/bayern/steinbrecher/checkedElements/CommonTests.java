@@ -1,4 +1,4 @@
-package bayern.steinbrecher.test.checkedElements;
+package bayern.steinbrecher.checkedElements;
 
 import bayern.steinbrecher.checkedElements.textfields.CheckedPasswordField;
 import bayern.steinbrecher.checkedElements.textfields.CheckedTextField;
@@ -7,7 +7,7 @@ import bayern.steinbrecher.checkedElements.textfields.sepa.BicTextField;
 import bayern.steinbrecher.checkedElements.textfields.sepa.CreditorIdTextField;
 import bayern.steinbrecher.checkedElements.textfields.sepa.IbanTextField;
 import bayern.steinbrecher.checkedElements.textfields.sepa.SepaNameField;
-import bayern.steinbrecher.test.utility.InitUtility;
+import bayern.steinbrecher.utility.InitUtility;
 import javafx.scene.Parent;
 import org.junit.jupiter.api.BeforeAll;
 import org.junit.jupiter.params.ParameterizedTest;
@@ -30,14 +30,14 @@ public class CommonTests {
     }
 
     @ParameterizedTest
-    @MethodSource("bayern.steinbrecher.test.checkedElements.TestCase#provideTestClasses")
+    @MethodSource("bayern.steinbrecher.checkedElements.TestCase#provideTestClasses")
     void checkCreation(Class<?> objectClass) {
         assertDoesNotThrow(() -> objectClass.getDeclaredConstructor().newInstance(),
                 "Could not create instance of " + objectClass.getCanonicalName());
     }
 
     @ParameterizedTest
-    @MethodSource("bayern.steinbrecher.test.checkedElements.TestCase#provideTestElements")
+    @MethodSource("bayern.steinbrecher.checkedElements.TestCase#provideTestElements")
     void checkStylesheets(Parent node) {
         final Set<String> availableStylesheets = node.getStylesheets()
                 .stream()

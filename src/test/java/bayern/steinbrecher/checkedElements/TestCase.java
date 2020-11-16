@@ -1,8 +1,5 @@
-package bayern.steinbrecher.test.checkedElements;
+package bayern.steinbrecher.checkedElements;
 
-import bayern.steinbrecher.checkedElements.CheckedComboBox;
-import bayern.steinbrecher.checkedElements.CheckedDatePicker;
-import bayern.steinbrecher.checkedElements.CheckedTableView;
 import bayern.steinbrecher.checkedElements.buttons.HelpButton;
 import bayern.steinbrecher.checkedElements.report.ConditionReportTable;
 import bayern.steinbrecher.checkedElements.spinner.CheckedDoubleSpinner;

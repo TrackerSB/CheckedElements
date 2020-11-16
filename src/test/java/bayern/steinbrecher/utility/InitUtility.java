@@ -1,4 +1,4 @@
-package bayern.steinbrecher.test.utility;
+package bayern.steinbrecher.utility;
 
 import javafx.embed.swing.JFXPanel;
 
