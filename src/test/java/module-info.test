@@ -1,0 +1,20 @@
+--add-reads
+    bayern.steinbrecher.CheckedElements=java.desktop
+
+--add-reads
+    bayern.steinbrecher.CheckedElements=javafx.graphics
+
+--add-modules
+    javafx.swing
+--add-reads
+    bayern.steinbrecher.CheckedElements=javafx.swing
+
+--add-modules
+    org.junit.jupiter.params
+--add-reads
+    bayern.steinbrecher.CheckedElements=org.junit.jupiter.params
+
+--add-exports
+    org.junit.platform.commons/org.junit.platform.commons.util=ALL-UNNAMED
+--add-exports
+    org.junit.platform.commons/org.junit.platform.commons.logging=ALL-UNNAMED
