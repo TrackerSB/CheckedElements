@@ -32,7 +32,8 @@ public class CommonTests {
     @ParameterizedTest
     @MethodSource("bayern.steinbrecher.test.checkedElements.TestCase#provideTestClasses")
     void checkCreation(Class<?> objectClass) {
-        assertDoesNotThrow(() -> objectClass.getDeclaredConstructor().newInstance(), "Could not create instance");
+        assertDoesNotThrow(() -> objectClass.getDeclaredConstructor().newInstance(),
+                "Could not create instance of " + objectClass.getCanonicalName());
     }
 
     @ParameterizedTest

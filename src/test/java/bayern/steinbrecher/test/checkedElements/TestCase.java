@@ -69,20 +69,21 @@ public final class TestCase<T> {
         this.typeOfTestElement = typeOfTestElement;
     }
 
-    public static Stream<Arguments> provideTestClasses(){
+    public static Stream<Arguments> provideTestClasses() {
         return TEST_CASES.stream()
                 .map(testCase -> testCase.typeOfTestElement)
                 .map(Arguments::of);
     }
 
-    public static Stream<Arguments> provideTestElements(){
+    public static Stream<Arguments> provideTestElements() {
         return TEST_CASES.stream()
                 .map(testCase -> testCase.typeOfTestElement)
                 .map(c -> {
                     try {
                         return c.getDeclaredConstructor();
                     } catch (NoSuchMethodException ex) {
-                        LOGGER.log(Level.SEVERE, "Could not find appropriate constructor", ex);
+                        LOGGER.log(Level.WARNING, "Could not find appropriate constructor for "
+                                + c.getCanonicalName() + ". Test results may be incomplete.", ex);
                         return null;
                     }
                 })
@@ -91,7 +92,8 @@ public final class TestCase<T> {
                     try {
                         return c.newInstance();
                     } catch (InstantiationException | IllegalAccessException | InvocationTargetException ex) {
-                        LOGGER.log(Level.SEVERE, "Could not create instance of object to test", ex);
+                        LOGGER.log(Level.WARNING, "Could not create instance for "
+                                + c.getDeclaringClass().getCanonicalName() + ". Test results may be incomplete.", ex);
                         return null;
                     }
                 })
