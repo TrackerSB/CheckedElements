@@ -77,24 +77,21 @@ public class CheckedDoubleSpinnerValueFactory extends SpinnerValueFactory.Double
             @NamedArg("includeMin") boolean includeMin) {
         super(min, max, initialValue, amountToStepBy);
 
-        setMin(min);
-        setMax(max);
-        valueProperty().set(initialValue);
-        setAmountToStepBy(amountToStepBy);
-        setIncludeMin(includeMin);
-
         valueProperty().addListener((obs, oldVal, newVal) -> {
-            if (isIncludeMin()) {
-                if (newVal < getMin()) {
-                    setValue(getMin());
-                }
-            } else {
-                if (newVal != null && newVal <= getMin()) {
-                    /* NOTE Here the boxed version of double is used otherwise it may happend that oldVal is unboxed but
-                     * is null.
-                     */
-                    Double oneStepOverMin = getMin() + getAmountToStepBy();
-                    setValue(oldVal < oneStepOverMin ? oldVal : oneStepOverMin);
+            if(newVal != null) {
+                if (isIncludeMin()) {
+                    if (newVal < getMin()) {
+                        setValue(getMin());
+                    }
+                } else {
+                    if (newVal <= getMin()) {
+                        /* NOTE Here the boxed version of double is used otherwise it may happend that oldVal is
+                        unboxed but
+                         * is null.
+                         */
+                        Double oneStepOverMin = getMin() + getAmountToStepBy();
+                        setValue(oldVal < oneStepOverMin ? oldVal : oneStepOverMin);
+                    }
                 }
             }
         });
@@ -103,6 +100,12 @@ public class CheckedDoubleSpinnerValueFactory extends SpinnerValueFactory.Double
                 setValue(getMin() + getAmountToStepBy());
             }
         });
+
+        setMin(min);
+        setMax(max);
+        setAmountToStepBy(amountToStepBy);
+        setIncludeMin(includeMin);
+        valueProperty().set(initialValue);
     }
 
     /**
