@@ -44,7 +44,7 @@ public class HelpButton extends Button {
     public HelpButton(String text, String helpMessage, Node graphic) {
         super(text, graphic);
         setOnAction(aevt -> showHelpMessage());
-        this.helpMessage.set(helpMessage);
+        setHelpMessage(helpMessage);
         setFocusTraversable(false);
         getStyleClass().add(CSS_CLASS_HELP_BUTTON);
     }
@@ -53,7 +53,7 @@ public class HelpButton extends Button {
         String help = RESOURCE_BUNDLE.getString("help");
         String findHelp = RESOURCE_BUNDLE.getString("findHelp");
         try {
-            Alert alert = DialogUtility.createMessageAlert(this.helpMessage.get(), findHelp, help, help);
+            Alert alert = DialogUtility.createMessageAlert(getHelpMessage(), findHelp, help, help);
             Platform.runLater(alert::show);
         }catch(DialogCreationException ex){
             LOGGER.log(Level.WARNING, "Could not show help message dialog", ex);
@@ -65,10 +65,12 @@ public class HelpButton extends Button {
     }
 
     public void setHelpMessage(String helpMessage) {
-        this.helpMessage.set(helpMessage);
+        helpMessageProperty()
+                .set(helpMessage);
     }
 
     public String getHelpMessage() {
-        return helpMessage.get();
+        return helpMessageProperty()
+                .get();
     }
 }
