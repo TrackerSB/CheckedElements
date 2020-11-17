@@ -1,6 +1,5 @@
 package bayern.steinbrecher.checkedElements.report;
 
-import com.google.errorprone.annotations.DoNotCall;
 import javafx.beans.property.ReadOnlyBooleanProperty;
 import javafx.collections.ObservableList;
 
@@ -42,7 +41,7 @@ public interface Reportable {
      * @throws IllegalArgumentException Only if the given {@link ReportEntry} has a message which was already added.
      */
     //FIXME How to make it protected and final?
-    @DoNotCall
+    @Deprecated
     /* protected final */ boolean addReport(ReportEntry report);
 
     /**
@@ -53,7 +52,7 @@ public interface Reportable {
      * @param reportable The {@link Reportable} whose messages have to be added to this one.
      */
     //FIXME How to make it protected and final?
-    @DoNotCall
+    @Deprecated
     /* protected final */ default void addReports(Reportable reportable) {
         reportable.getReports()
                 .forEach(this::addReport);

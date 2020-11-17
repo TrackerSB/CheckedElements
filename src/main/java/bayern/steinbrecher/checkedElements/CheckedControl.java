@@ -3,7 +3,6 @@ package bayern.steinbrecher.checkedElements;
 import bayern.steinbrecher.checkedElements.report.ReportEntry;
 import bayern.steinbrecher.checkedElements.report.ReportType;
 import bayern.steinbrecher.checkedElements.report.Reportable;
-import com.google.errorprone.annotations.DoNotCall;
 import javafx.beans.binding.BooleanExpression;
 import javafx.beans.property.ReadOnlyBooleanProperty;
 
@@ -47,7 +46,7 @@ public interface CheckedControl extends Reportable {
      *
      * @param report The report to add.
      */
-    @DoNotCall
+    @Deprecated
     @Override
     boolean addReport(ReportEntry report);
 

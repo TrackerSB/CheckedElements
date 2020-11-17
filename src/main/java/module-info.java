@@ -11,8 +11,7 @@ module bayern.steinbrecher.CheckedElements {
     requires java.xml;
     requires javafx.controls;
     requires javafx.fxml;
-
-    requires static error.prone.annotation;
+    requires org.checkerframework.checker;
 
     // FIXME Open resources to whom?
     opens bayern.steinbrecher.checkedElements.report;
