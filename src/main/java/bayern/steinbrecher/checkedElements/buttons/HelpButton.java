@@ -55,7 +55,7 @@ public class HelpButton extends Button {
         try {
             Alert alert = DialogUtility.createMessageAlert(getHelpMessage(), findHelp, help, help);
             Platform.runLater(alert::show);
-        }catch(DialogCreationException ex){
+        } catch (DialogCreationException ex) {
             LOGGER.log(Level.WARNING, "Could not show help message dialog", ex);
         }
     }
