@@ -64,7 +64,6 @@ public class CheckedDatePicker extends DatePicker implements CheckableControl {
         initProperties();
 
         getStyleClass().add("checked-date-picker");
-        getStylesheets().add(CheckedDatePicker.class.getResource("checkedDatePicker.css").toExternalForm());
     }
 
     private void initProperties() {

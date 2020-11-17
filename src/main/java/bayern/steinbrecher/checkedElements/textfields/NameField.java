@@ -36,6 +36,5 @@ public class NameField extends CheckedTextField {
         super(maxColumnCount, text);
 
         getStyleClass().add("name-field");
-        getStylesheets().add(NameField.class.getResource("nameField.css").toExternalForm());
     }
 }

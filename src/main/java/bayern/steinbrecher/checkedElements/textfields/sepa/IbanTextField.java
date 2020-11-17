@@ -37,6 +37,5 @@ public final class IbanTextField extends SpecificRegexTextField {
                 () -> !SepaUtility.isValidIban(textProperty().get()), textProperty()));
         addReport(new ReportEntry("invalidIban", ReportType.ERROR, invalidIban));
         getStyleClass().add("iban-textfield");
-        getStylesheets().add(IbanTextField.class.getResource("ibanTextField.css").toExternalForm());
     }
 }
