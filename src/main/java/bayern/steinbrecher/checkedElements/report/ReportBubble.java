@@ -8,6 +8,7 @@ import javafx.scene.Node;
 import javafx.scene.control.Tooltip;
 import javafx.util.Pair;
 
+import java.util.Comparator;
 import java.util.Map;
 import java.util.StringJoiner;
 
@@ -63,7 +64,7 @@ public final class ReportBubble<C extends Node & Reportable> {
                                 .stream()
                                 .map(ReportEntry::getType)
                                 .distinct()
-                                .max((typeA, typeB) -> typeA.compareTo(typeB))
+                                .max(Comparator.naturalOrder())
                                 .orElse(ReportType.UNDEFINED);
                         Pair<String, String> scheme = COLOR_SCHEMES.get(bubbleType);
                         assert scheme != null : "There is no scheme defined for ReportType " + bubbleType;
