@@ -42,12 +42,13 @@ public final class ReportBubble<C extends Node & Reportable> {
 
         reportable.getReports()
                 .addListener((ListChangeListener.Change<? extends ReportEntry> change) -> {
-                    triggeredReports.removeAll(change.getRemoved());
-                    change.getAddedSubList()
-                            .stream()
-                            .filter(ReportEntry::isReportTriggered)
-                            .forEach(triggeredReports::add);
-
+                    while (change.next()) {
+                        triggeredReports.removeAll(change.getRemoved());
+                        change.getAddedSubList()
+                                .stream()
+                                .filter(ReportEntry::isReportTriggered)
+                                .forEach(triggeredReports::add);
+                    }
                 });
         triggeredReports.addListener((obs, oldVal, newVal) -> {
             StringJoiner reportBuilder = new StringJoiner("\n");
