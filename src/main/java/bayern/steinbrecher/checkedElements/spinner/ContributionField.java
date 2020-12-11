@@ -4,15 +4,13 @@ import bayern.steinbrecher.checkedElements.CheckableControl;
 import bayern.steinbrecher.checkedElements.CheckableControlBase;
 import bayern.steinbrecher.checkedElements.report.ReportEntry;
 import javafx.beans.property.BooleanProperty;
-import javafx.beans.property.DoubleProperty;
 import javafx.beans.property.ObjectProperty;
 import javafx.beans.property.ReadOnlyBooleanProperty;
-import javafx.beans.property.SimpleBooleanProperty;
-import javafx.beans.property.SimpleDoubleProperty;
 import javafx.collections.ObservableList;
 import javafx.fxml.FXML;
 import javafx.scene.control.ColorPicker;
 import javafx.scene.control.Control;
+import javafx.scene.control.Skin;
 import javafx.scene.paint.Color;
 
 import java.util.Optional;
@@ -51,6 +49,16 @@ public class ContributionField extends Control implements CheckableControl {
         ccBase.addReports(contributionSpinner);
     }
 
+    /**
+     * @since 0.11
+     */
+    @Override
+    protected Skin<?> createDefaultSkin() {
+        return new ContributionFieldSkin(this);
+    }
+
+    // Inherited {@link Reportble} properties
+
     @Override
     public ObservableList<ReportEntry> getReports() {
         return ccBase.getReports();
@@ -61,60 +69,7 @@ public class ContributionField extends Control implements CheckableControl {
         return ccBase.addReport(report);
     }
 
-    /**
-     * Returns the property holding the currently inserted contribution.
-     *
-     * @return The property holding the currently inserted contribution.
-     */
-    public ObjectProperty<Double> contributionProperty() {
-        return contributionSpinner.getValueFactory().valueProperty();
-    }
-
-    /**
-     * Returns the currently inserted contribution.
-     *
-     * @return The currently inserted contribution. Returns {@link Optional#empty()} if and only if no value is
-     * inserted.
-     */
-    public Optional<Double> getContribution() {
-        return Optional.ofNullable(contributionProperty().getValue());
-    }
-
-    /**
-     * Sets a new contribution to show.
-     *
-     * @param contribution The new contribution to set.
-     */
-    public void setContribution(double contribution) {
-        contributionProperty().set(contribution);
-    }
-
-    /**
-     * Returns the property holding the currently associated color.
-     *
-     * @return The property holding the currently associated color.
-     */
-    public ObjectProperty<Color> colorProperty() {
-        return colorPicker.valueProperty();
-    }
-
-    /**
-     * Returns the currently associated color.
-     *
-     * @return The currently associated color.
-     */
-    public Color getColor() {
-        return colorProperty().get();
-    }
-
-    /**
-     * Sets the color of the {@link ColorPicker}
-     *
-     * @param color The color to set.
-     */
-    public void setColor(Color color) {
-        colorProperty().set(color);
-    }
+    // Inherited {@link Checkable} properties
 
     @Override
     public BooleanProperty checkedProperty() {
@@ -139,5 +94,30 @@ public class ContributionField extends Control implements CheckableControl {
     @Override
     public boolean isValid() {
         return validProperty().get();
+    }
+
+    // Additional properties
+    public ObjectProperty<Double> contributionProperty() {
+        return contributionSpinner.getValueFactory().valueProperty();
+    }
+
+    public Optional<Double> getContribution() {
+        return Optional.ofNullable(contributionProperty().getValue());
+    }
+
+    public void setContribution(double contribution) {
+        contributionProperty().set(contribution);
+    }
+
+    public ObjectProperty<Color> colorProperty() {
+        return colorPicker.valueProperty();
+    }
+
+    public Color getColor() {
+        return colorProperty().get();
+    }
+
+    public void setColor(Color color) {
+        colorProperty().set(color);
     }
 }
