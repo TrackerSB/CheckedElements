@@ -53,13 +53,25 @@ public class ContributionField extends Control implements CheckableControl {
 
         skinProperty()
                 .addListener((obs, oldSkin, newSkin) -> {
-                    contributionProperty.unbind();
-                    colorProperty.unbind();
+                    if(oldSkin != null) {
+                        if (newSkin instanceof ContributionFieldSkin) {
+                            ContributionFieldSkin oldContributionFieldSkin = (ContributionFieldSkin) oldSkin;
+                            oldContributionFieldSkin.contributionProperty()
+                                    .bindBidirectional(contributionProperty);
+                            oldContributionFieldSkin.colorProperty()
+                                    .bindBidirectional(colorProperty);
+                        } else {
+                            LOGGER.log(Level.WARNING,
+                                    "Could not unbind skin properties since previous skin was already unsuitable");
+                        }
+                    }
                     if (newSkin != null) {
                         if (newSkin instanceof ContributionFieldSkin) {
-                            ContributionFieldSkin contributionFieldSkin = (ContributionFieldSkin) newSkin;
-                            contributionProperty.bind(contributionFieldSkin.contributionProperty());
-                            colorProperty.bind(contributionFieldSkin.colorProperty());
+                            ContributionFieldSkin newContributionFieldSkin = (ContributionFieldSkin) newSkin;
+                            newContributionFieldSkin.contributionProperty()
+                                    .bindBidirectional(contributionProperty);
+                            newContributionFieldSkin.colorProperty()
+                                    .bindBidirectional(colorProperty);
                         } else {
                             LOGGER.log(Level.WARNING, String.format(
                                     "'%s' is an unsuitable skin since it does not inherit from '%s'",
