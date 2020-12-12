@@ -24,7 +24,7 @@ public class CheckedDoubleSpinnerValueFactory extends SpinnerValueFactory.Double
      * @param max The maximum allowed double value for the Spinner.
      */
     public CheckedDoubleSpinnerValueFactory(@NamedArg("min") double min,
-            @NamedArg("max") double max) {
+                                            @NamedArg("max") double max) {
         this(min, max, min);
     }
 
@@ -32,14 +32,14 @@ public class CheckedDoubleSpinnerValueFactory extends SpinnerValueFactory.Double
      * Constructs a new {@code CheckedDoubleSpinnerValueFactory} with a default {@code amountToStepBy} of one and
      * including the minimum value in the range of valid numbers.
      *
-     * @param min The minimum allowed double value for the Spinner.
-     * @param max The maximum allowed double value for the Spinner.
+     * @param min          The minimum allowed double value for the Spinner.
+     * @param max          The maximum allowed double value for the Spinner.
      * @param initialValue The value of the Spinner when first instantiated, must be within the bounds of the min and
-     * max arguments, or else the min value will be used.
+     *                     max arguments, or else the min value will be used.
      */
     public CheckedDoubleSpinnerValueFactory(@NamedArg("min") double min,
-            @NamedArg("max") double max,
-            @NamedArg("initialValue") double initialValue) {
+                                            @NamedArg("max") double max,
+                                            @NamedArg("initialValue") double initialValue) {
         this(min, max, initialValue, 1);
     }
 
@@ -47,38 +47,39 @@ public class CheckedDoubleSpinnerValueFactory extends SpinnerValueFactory.Double
      * Constructs a new {@code CheckedDoubleSpinnerValueFactory} including the minimum value in the range of valid
      * numbers.
      *
-     * @param min The minimum allowed double value for the Spinner.
-     * @param max The maximum allowed double value for the Spinner.
-     * @param initialValue The value of the Spinner when first instantiated, must be within the bounds of the min and
-     * max arguments, or else the min value will be used.
+     * @param min            The minimum allowed double value for the Spinner.
+     * @param max            The maximum allowed double value for the Spinner.
+     * @param initialValue   The value of the Spinner when first instantiated, must be within the bounds of the min and
+     *                       max arguments, or else the min value will be used.
      * @param amountToStepBy The amount to increment or decrement by, per step.
      */
     public CheckedDoubleSpinnerValueFactory(@NamedArg("min") double min,
-            @NamedArg("max") double max,
-            @NamedArg("initialValue") double initialValue,
-            @NamedArg("amountToStepBy") double amountToStepBy) {
+                                            @NamedArg("max") double max,
+                                            @NamedArg("initialValue") double initialValue,
+                                            @NamedArg("amountToStepBy") double amountToStepBy) {
         this(min, max, initialValue, amountToStepBy, true);
     }
 
     /**
      * Constructs a new {@code CheckedDoubleSpinnerValueFactory}.
      *
-     * @param min The minimum allowed double value for the Spinner.
-     * @param max The maximum allowed double value for the Spinner.
-     * @param initialValue The value of the Spinner when first instantiated, must be within the bounds of the min and
-     * max arguments, or else the min value will be used.
+     * @param min            The minimum allowed double value for the Spinner.
+     * @param max            The maximum allowed double value for the Spinner.
+     * @param initialValue   The value of the Spinner when first instantiated, must be within the bounds of the min and
+     *                       max arguments, or else the min value will be used.
      * @param amountToStepBy The amount to increment or decrement by, per step.
-     * @param includeMin {@code true} only if the minimum value has to be included within the range of allowed values.
+     * @param includeMin     {@code true} only if the minimum value has to be included within the range of allowed
+     *                                   values.
      */
     public CheckedDoubleSpinnerValueFactory(@NamedArg("min") double min,
-            @NamedArg("max") double max,
-            @NamedArg("initialValue") double initialValue,
-            @NamedArg("amountToStepBy") double amountToStepBy,
-            @NamedArg("includeMin") boolean includeMin) {
+                                            @NamedArg("max") double max,
+                                            @NamedArg("initialValue") double initialValue,
+                                            @NamedArg("amountToStepBy") double amountToStepBy,
+                                            @NamedArg("includeMin") boolean includeMin) {
         super(min, max, initialValue, amountToStepBy);
 
         valueProperty().addListener((obs, oldVal, newVal) -> {
-            if(newVal != null) {
+            if (newVal != null) {
                 if (isIncludeMin()) {
                     if (newVal < getMin()) {
                         setValue(getMin());
@@ -133,5 +134,19 @@ public class CheckedDoubleSpinnerValueFactory extends SpinnerValueFactory.Double
      */
     public final void setIncludeMin(boolean includeMin) {
         this.includeMin.set(includeMin);
+    }
+
+    @Override
+    public void increment(int steps) {
+        if (getValue() != null) {
+            super.increment(steps);
+        }
+    }
+
+    @Override
+    public void decrement(int steps) {
+        if (getValue() != null) {
+            super.decrement(steps);
+        }
     }
 }
