@@ -6,14 +6,15 @@ import bayern.steinbrecher.checkedElements.report.ReportEntry;
 import javafx.beans.property.BooleanProperty;
 import javafx.beans.property.ObjectProperty;
 import javafx.beans.property.ReadOnlyBooleanProperty;
+import javafx.beans.property.SimpleObjectProperty;
 import javafx.collections.ObservableList;
-import javafx.fxml.FXML;
-import javafx.scene.control.ColorPicker;
 import javafx.scene.control.Control;
 import javafx.scene.control.Skin;
 import javafx.scene.paint.Color;
 
 import java.util.Optional;
+import java.util.logging.Level;
+import java.util.logging.Logger;
 
 /**
  * Represents a contribution spinner. It is a {@link CheckedDoubleSpinner} which has a further field for associating a
@@ -24,9 +25,15 @@ import java.util.Optional;
  */
 public class ContributionField extends Control implements CheckableControl {
 
+    private static final Logger LOGGER = Logger.getLogger(ContributionField.class.getName());
     private final CheckableControlBase<ContributionField> ccBase = new CheckableControlBase<>(this);
-    private final CheckedDoubleSpinner contributionSpinner;
-    private final ColorPicker colorPicker = new ColorPicker(Color.TRANSPARENT);
+    private final double minValue;
+    private final double maxValue;
+    private final double initialValue;
+    private final double amountToStepBy;
+    private final boolean includeMinValue;
+    private final ObjectProperty<Double> contributionProperty = new SimpleObjectProperty<>(null);
+    private final ObjectProperty<Color> colorProperty = new SimpleObjectProperty<>(Color.TRANSPARENT);
 
     /**
      * Represents a combination of a spinner for entering a contribution and an associated color. The minimum value is
@@ -38,15 +45,28 @@ public class ContributionField extends Control implements CheckableControl {
     public ContributionField(double minValue, double maxValue, double initialValue, double amountToStepBy,
                              boolean includeMinValue) {
         super();
-        contributionSpinner = new CheckedDoubleSpinner(
-                minValue, maxValue, initialValue, amountToStepBy, includeMinValue);
-        getStyleClass()
-                .add("contribution-field");
-    }
+        this.minValue = minValue;
+        this.maxValue = maxValue;
+        this.initialValue = initialValue;
+        this.amountToStepBy = amountToStepBy;
+        this.includeMinValue = includeMinValue;
 
-    @FXML
-    private void initialize() {
-        ccBase.addReports(contributionSpinner);
+        skinProperty()
+                .addListener((obs, oldSkin, newSkin) -> {
+                    contributionProperty.unbind();
+                    colorProperty.unbind();
+                    if (newSkin != null) {
+                        if (newSkin instanceof ContributionFieldSkin) {
+                            ContributionFieldSkin contributionFieldSkin = (ContributionFieldSkin) newSkin;
+                            contributionProperty.bind(contributionFieldSkin.contributionProperty());
+                            colorProperty.bind(contributionFieldSkin.colorProperty());
+                        } else {
+                            LOGGER.log(Level.WARNING, String.format(
+                                    "'%s' is an unsuitable skin since it does not inherit from '%s'",
+                                    newSkin.getClass().getName(), ContributionFieldSkin.class.getName()));
+                        }
+                    }
+                });
     }
 
     /**
@@ -54,10 +74,10 @@ public class ContributionField extends Control implements CheckableControl {
      */
     @Override
     protected Skin<?> createDefaultSkin() {
-        return new ContributionFieldSkin(this);
+        return new ContributionFieldSkin(this, minValue, maxValue, initialValue, amountToStepBy, includeMinValue);
     }
 
-    // Inherited {@link Reportble} properties
+    // Inherited {@link Reportable} properties
 
     @Override
     public ObservableList<ReportEntry> getReports() {
@@ -98,7 +118,7 @@ public class ContributionField extends Control implements CheckableControl {
 
     // Additional properties
     public ObjectProperty<Double> contributionProperty() {
-        return contributionSpinner.getValueFactory().valueProperty();
+        return contributionProperty;
     }
 
     public Optional<Double> getContribution() {
@@ -110,7 +130,7 @@ public class ContributionField extends Control implements CheckableControl {
     }
 
     public ObjectProperty<Color> colorProperty() {
-        return colorPicker.valueProperty();
+        return colorProperty;
     }
 
     public Color getColor() {
