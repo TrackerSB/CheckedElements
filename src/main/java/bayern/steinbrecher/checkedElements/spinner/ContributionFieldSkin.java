@@ -20,6 +20,7 @@ public class ContributionFieldSkin extends SkinBase<ContributionField> {
 
         contributionSpinner = new CheckedDoubleSpinner(
                 minValue, maxValue, initialValue, amountToStepBy, includeMinValue);
+        contributionSpinner.setEditable(true);
 
         HBox row = new HBox(contributionSpinner, colorPicker);
         row.prefHeightProperty().bind(getSkinnable().prefHeightProperty());
