@@ -2,6 +2,7 @@ package bayern.steinbrecher.checkedElements.report;
 
 import javafx.beans.property.ReadOnlyBooleanProperty;
 import javafx.collections.ObservableList;
+import javafx.scene.control.Skin;
 
 /**
  * @author Stefan Huber
@@ -46,8 +47,8 @@ public interface Reportable {
 
     /**
      * Adds all reports of the given {@link Reportable} to this {@link Reportable}. NOTE Use this method in subclasses
-     * of implementing classes only! Since multiple inheritance is not possible in Java this class has to be an
-     * interface and interfaces are not allowed to have protected members.
+     * of implementing classes (or their {@link Skin}s only! Since multiple inheritance is not possible in Java this
+     * class has to be an interface and interfaces are not allowed to have protected members.
      *
      * @param reportable The {@link Reportable} whose messages have to be added to this one.
      */
