@@ -34,6 +34,7 @@ public interface Reportable {
      *
      * @param constraint The constraint to add.
      * @return {@code true} only if the {@link ObservableBooleanValue} was added.
+     * @since 0.12
      */
     //FIXME How to make it protected and final?
     @Deprecated
