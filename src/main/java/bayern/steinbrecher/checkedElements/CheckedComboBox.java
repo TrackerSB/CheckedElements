@@ -6,6 +6,7 @@ import javafx.beans.binding.Bindings;
 import javafx.beans.property.BooleanProperty;
 import javafx.beans.property.ReadOnlyBooleanProperty;
 import javafx.beans.property.SimpleBooleanProperty;
+import javafx.beans.value.ObservableBooleanValue;
 import javafx.collections.FXCollections;
 import javafx.collections.ObservableList;
 import javafx.scene.control.ComboBox;
@@ -13,8 +14,8 @@ import javafx.scene.control.ComboBox;
 /**
  * Extended version of {@link ComboBox}. Also contains {@link BooleanProperty} indicating whether nothing is selected.
  *
- * @author Stefan Huber
  * @param <T> The type of the element of the ComboBox.
+ * @author Stefan Huber
  * @since 0.1
  */
 public class CheckedComboBox<T> extends ComboBox<T> implements CheckedControl {
@@ -81,6 +82,11 @@ public class CheckedComboBox<T> extends ComboBox<T> implements CheckedControl {
     @Override
     public boolean isValid() {
         return ccBase.isValid();
+    }
+
+    @Override
+    public boolean addValidityConstraint(ObservableBooleanValue constraint) {
+        return ccBase.addValidityConstraint(constraint);
     }
 
     @Override

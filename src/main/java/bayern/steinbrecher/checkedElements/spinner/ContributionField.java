@@ -7,6 +7,7 @@ import javafx.beans.property.BooleanProperty;
 import javafx.beans.property.ObjectProperty;
 import javafx.beans.property.ReadOnlyBooleanProperty;
 import javafx.beans.property.SimpleObjectProperty;
+import javafx.beans.value.ObservableBooleanValue;
 import javafx.collections.ObservableList;
 import javafx.scene.control.Control;
 import javafx.scene.control.Skin;
@@ -125,7 +126,12 @@ public class ContributionField extends Control implements CheckableControl {
 
     @Override
     public boolean isValid() {
-        return validProperty().get();
+        return ccBase.isValid();
+    }
+
+    @Override
+    public boolean addValidityConstraint(ObservableBooleanValue constraint) {
+        return ccBase.addValidityConstraint(constraint);
     }
 
     // Additional properties

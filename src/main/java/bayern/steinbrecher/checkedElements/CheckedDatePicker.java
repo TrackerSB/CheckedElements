@@ -1,14 +1,5 @@
 package bayern.steinbrecher.checkedElements;
 
-import java.time.LocalDate;
-import java.time.format.DateTimeFormatter;
-import java.time.format.DateTimeParseException;
-import java.time.format.FormatStyle;
-import java.util.Arrays;
-import java.util.logging.Level;
-import java.util.logging.Logger;
-import java.util.stream.Collectors;
-
 import bayern.steinbrecher.checkedElements.report.ReportEntry;
 import bayern.steinbrecher.checkedElements.report.ReportType;
 import javafx.beans.binding.Bindings;
@@ -18,8 +9,18 @@ import javafx.beans.property.BooleanProperty;
 import javafx.beans.property.ReadOnlyBooleanProperty;
 import javafx.beans.property.ReadOnlyBooleanWrapper;
 import javafx.beans.property.SimpleBooleanProperty;
+import javafx.beans.value.ObservableBooleanValue;
 import javafx.collections.ObservableList;
 import javafx.scene.control.DatePicker;
+
+import java.time.LocalDate;
+import java.time.format.DateTimeFormatter;
+import java.time.format.DateTimeParseException;
+import java.time.format.FormatStyle;
+import java.util.Arrays;
+import java.util.logging.Level;
+import java.util.logging.Logger;
+import java.util.stream.Collectors;
 
 /**
  * Represents a DatePicker which sets a css class attribute when it is empty or an invalid date is inserted.
@@ -55,7 +56,7 @@ public class CheckedDatePicker extends DatePicker implements CheckableControl {
     /**
      * Constructs a {@link CheckedDatePicker} with {@code locale} as initial date.
      *
-     * @param locale The initial date.
+     * @param locale      The initial date.
      * @param forceFuture {@code true} indicates a date can only be valid if it is not in the past and not today.
      */
     public CheckedDatePicker(LocalDate locale, boolean forceFuture) {
@@ -140,7 +141,12 @@ public class CheckedDatePicker extends DatePicker implements CheckableControl {
 
     @Override
     public boolean isValid() {
-        return validProperty().get();
+        return ccBase.isValid();
+    }
+
+    @Override
+    public boolean addValidityConstraint(ObservableBooleanValue constraint) {
+        return ccBase.addValidityConstraint(constraint);
     }
 
     /**

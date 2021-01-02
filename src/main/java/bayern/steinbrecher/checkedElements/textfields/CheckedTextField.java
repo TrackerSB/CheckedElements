@@ -10,10 +10,11 @@ import javafx.beans.property.IntegerProperty;
 import javafx.beans.property.ReadOnlyBooleanProperty;
 import javafx.beans.property.SimpleBooleanProperty;
 import javafx.beans.property.SimpleIntegerProperty;
+import javafx.beans.value.ObservableBooleanValue;
+import javafx.collections.ObservableList;
 import javafx.css.PseudoClass;
 import javafx.scene.AccessibleRole;
 import javafx.scene.control.TextField;
-import javafx.collections.ObservableList;
 
 /**
  * Represents text fields that detects whether their input text is longer than a given maximum column count. These text
@@ -67,7 +68,7 @@ public class CheckedTextField extends TextField implements CheckableControl {
      * initial content.
      *
      * @param maxColumnCount The initial max input length.
-     * @param text The initial content.
+     * @param text           The initial content.
      */
     public CheckedTextField(int maxColumnCount, String text) {
         super(text);
@@ -189,6 +190,11 @@ public class CheckedTextField extends TextField implements CheckableControl {
 
     @Override
     public boolean isValid() {
-        return validProperty().get();
+        return ccBase.isValid();
+    }
+
+    @Override
+    public boolean addValidityConstraint(ObservableBooleanValue constraint) {
+        return ccBase.addValidityConstraint(constraint);
     }
 }

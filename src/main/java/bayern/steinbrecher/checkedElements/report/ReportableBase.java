@@ -1,7 +1,6 @@
 package bayern.steinbrecher.checkedElements.report;
 
 import bayern.steinbrecher.javaUtility.BindingUtility;
-import javafx.beans.binding.BooleanBinding;
 import javafx.beans.property.ReadOnlyBooleanProperty;
 import javafx.beans.property.ReadOnlyBooleanWrapper;
 import javafx.beans.property.ReadOnlyListWrapper;
@@ -43,20 +42,10 @@ public class ReportableBase<C extends Node & Reportable> implements Reportable {
     public ReportableBase(C control) {
         this.control = control;
         validConditions.addListener((ListChangeListener.Change<? extends ObservableBooleanValue> c) -> {
-            valid.bind(createValidBinding());
+            valid.bind(BindingUtility.reduceAnd(validConditions.stream()));
         });
         invalid.bind(valid.not());
         validConditions.add(BindingUtility.TRUE_BINDING); //Trigger init of property valid
-    }
-
-    /**
-     * Creates the binding for determining whether the input of the control is valid. It may be overridden in order to
-     * extend the binding by further restrictions of its validity.
-     *
-     * @return The binding for determining whether the input of the control is valid.
-     */
-    protected BooleanBinding createValidBinding() {
-        return BindingUtility.reduceAnd(validConditions.stream());
     }
 
     @Override
@@ -88,6 +77,11 @@ public class ReportableBase<C extends Node & Reportable> implements Reportable {
     @Override
     public boolean isValid() {
         return validProperty().get();
+    }
+
+    @Override
+    public boolean addValidityConstraint(ObservableBooleanValue constraint) {
+        return validConditions.add(constraint);
     }
 
     /**

@@ -1,8 +1,5 @@
 package bayern.steinbrecher.checkedElements.spinner;
 
-import java.util.Optional;
-import java.util.function.Function;
-
 import bayern.steinbrecher.checkedElements.CheckableControl;
 import bayern.steinbrecher.checkedElements.CheckableControlBase;
 import bayern.steinbrecher.checkedElements.report.ReportEntry;
@@ -10,9 +7,13 @@ import bayern.steinbrecher.checkedElements.report.ReportType;
 import javafx.beans.binding.Bindings;
 import javafx.beans.property.BooleanProperty;
 import javafx.beans.property.ReadOnlyBooleanProperty;
+import javafx.beans.value.ObservableBooleanValue;
 import javafx.collections.ObservableList;
 import javafx.scene.control.Spinner;
 import javafx.scene.control.SpinnerValueFactory;
+
+import java.util.Optional;
+import java.util.function.Function;
 
 /**
  * Extends the class {@link Spinner} with a valid and checked property.
@@ -78,6 +79,11 @@ public class CheckedSpinner<T> extends Spinner<T> implements CheckableControl {
 
     @Override
     public boolean isValid() {
-        return validProperty().get();
+        return ccBase.isValid();
+    }
+
+    @Override
+    public boolean addValidityConstraint(ObservableBooleanValue constraint) {
+        return ccBase.addValidityConstraint(constraint);
     }
 }

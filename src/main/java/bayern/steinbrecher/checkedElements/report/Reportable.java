@@ -1,6 +1,8 @@
 package bayern.steinbrecher.checkedElements.report;
 
+import bayern.steinbrecher.checkedElements.CheckedControl;
 import javafx.beans.property.ReadOnlyBooleanProperty;
+import javafx.beans.value.ObservableBooleanValue;
 import javafx.collections.ObservableList;
 import javafx.scene.control.Skin;
 
@@ -26,6 +28,18 @@ public interface Reportable {
     boolean isValid();
 
     /**
+     * Adds a further constraint to the list of validity criteria. NOTE Use this method in subclasses of implementing
+     * classes or {@link Skin}s of {@link CheckedControl}s only! Since multiple inheritance is not possible in Java this
+     * class has to be an interface and interfaces are not allowed to have protected members.
+     *
+     * @param constraint The constraint to add.
+     * @return {@code true} only if the {@link ObservableBooleanValue} was added.
+     */
+    //FIXME How to make it protected and final?
+    @Deprecated
+    /* protected final */ boolean addValidityConstraint(ObservableBooleanValue constraint);
+
+    /**
      * Returns all associated reports.
      *
      * @return All associated reports. The list is unmodifiable.
@@ -33,7 +47,7 @@ public interface Reportable {
     ObservableList<ReportEntry> getReports();
 
     /**
-     * Adds a further report to the list of reports.NOTE Use this method in subclasses of implementing classes only!
+     * Adds a further report to the list of reports. NOTE Use this method in subclasses of implementing classes only!
      * Since multiple inheritance is not possible in Java this class has to be an interface and interfaces are not
      * allowed to have protected members.
      *
