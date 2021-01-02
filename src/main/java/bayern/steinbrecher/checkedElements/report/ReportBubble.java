@@ -58,7 +58,6 @@ public final class ReportBubble<C extends Node & Reportable> {
         triggeredReports.emptyProperty()
                 .not()
                 .and(reportable.validProperty().not())
-                .and(reportable.focusedProperty())
                 .addListener((obs, oldVal, newVal) -> {
                     if (newVal) {
                         ReportType bubbleType = triggeredReports
