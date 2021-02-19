@@ -14,7 +14,7 @@ import javafx.scene.control.SpinnerValueFactory;
  */
 public class CheckedDoubleSpinnerValueFactory extends SpinnerValueFactory.DoubleSpinnerValueFactory {
 
-    private final BooleanProperty includeMin = new SimpleBooleanProperty(this, "includeMin");
+    private final BooleanProperty includeMin = new SimpleBooleanProperty();
 
     /**
      * Constructs a new {@code CheckedDoubleSpinnerValueFactory} that sets the initial value to be equal to the min
@@ -77,30 +77,6 @@ public class CheckedDoubleSpinnerValueFactory extends SpinnerValueFactory.Double
                                             @NamedArg("amountToStepBy") double amountToStepBy,
                                             @NamedArg("includeMin") boolean includeMin) {
         super(min, max, initialValue, amountToStepBy);
-
-        valueProperty().addListener((obs, oldVal, newVal) -> {
-            if (newVal != null) {
-                if (isIncludeMin()) {
-                    if (newVal < getMin()) {
-                        setValue(getMin());
-                    }
-                } else {
-                    if (newVal <= getMin()) {
-                        /* NOTE Here the boxed version of double is used otherwise it may happend that oldVal is
-                        unboxed but
-                         * is null.
-                         */
-                        Double oneStepOverMin = getMin() + getAmountToStepBy();
-                        setValue(oldVal < oneStepOverMin ? oldVal : oneStepOverMin);
-                    }
-                }
-            }
-        });
-        this.includeMin.addListener((obs, oldVal, newVal) -> {
-            if (oldVal && getValue() <= getMin()) {
-                setValue(getMin() + getAmountToStepBy());
-            }
-        });
 
         setMin(min);
         setMax(max);
