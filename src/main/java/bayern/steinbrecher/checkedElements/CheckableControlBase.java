@@ -28,7 +28,7 @@ public class CheckableControlBase<C extends Node & Reportable> extends Reportabl
     private final C control;
 
     /**
-     * Creates a {@link CheckableControlBase} which can be used for delgating calls when implementing
+     * Creates a {@link CheckableControlBase} which can be used for delegating calls when implementing
      * {@link CheckableControl}.
      *
      * @param control The control to add pseudo classes to.
