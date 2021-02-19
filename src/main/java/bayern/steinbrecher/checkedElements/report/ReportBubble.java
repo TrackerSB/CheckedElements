@@ -3,6 +3,7 @@ package bayern.steinbrecher.checkedElements.report;
 import javafx.beans.property.ListProperty;
 import javafx.beans.property.ReadOnlyStringWrapper;
 import javafx.beans.property.SimpleListProperty;
+import javafx.collections.FXCollections;
 import javafx.collections.ListChangeListener;
 import javafx.scene.Node;
 import javafx.scene.control.Tooltip;
@@ -32,8 +33,9 @@ public final class ReportBubble<C extends Node & Reportable> {
             ReportType.INFO, new Pair<>("#80bfff", "black"),
             ReportType.UNDEFINED, new Pair<>("#d9d9d9", "black")
     );
-    private final ListProperty<ReportEntry> triggeredReports = new SimpleListProperty<>(this, "triggeredReports");
-    private final ReadOnlyStringWrapper reportsMessage = new ReadOnlyStringWrapper(this, "reportsMessage");
+    private final ListProperty<ReportEntry> triggeredReports
+            = new SimpleListProperty<>(FXCollections.observableArrayList());
+    private final ReadOnlyStringWrapper reportsMessage = new ReadOnlyStringWrapper();
     private final Tooltip bubble = new Tooltip();
 
     public ReportBubble(C reportable) {
