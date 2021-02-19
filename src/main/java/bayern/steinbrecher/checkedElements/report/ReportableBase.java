@@ -20,7 +20,7 @@ import javafx.scene.Node;
  */
 public class ReportableBase<C extends Node & Reportable> implements Reportable {
 
-    private final ReadOnlyBooleanWrapper valid = new ReadOnlyBooleanWrapper(this, "valid");
+    private final ReadOnlyBooleanWrapper valid = new ReadOnlyBooleanWrapper(true);
     private final ObservableList<ObservableBooleanValue> validConditions = FXCollections.observableArrayList();
 
     private static final PseudoClass INVALID_PSEUDO_CLASS = PseudoClass.getPseudoClass("invalid");
@@ -45,7 +45,7 @@ public class ReportableBase<C extends Node & Reportable> implements Reportable {
             valid.bind(BindingUtility.reduceAnd(validConditions.stream()));
         });
         invalid.bind(valid.not());
-        validConditions.add(BindingUtility.TRUE_BINDING); //Trigger init of property valid
+        validConditions.add(BindingUtility.TRUE_BINDING); // Trigger init of property valid
     }
 
     @Override

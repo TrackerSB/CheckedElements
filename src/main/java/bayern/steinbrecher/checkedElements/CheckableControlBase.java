@@ -18,8 +18,8 @@ import javafx.scene.Node;
  */
 public class CheckableControlBase<C extends Node & Reportable> extends ReportableBase<C> implements CheckableControl {
     private static final PseudoClass CHECKED_PSEUDO_CLASS = PseudoClass.getPseudoClass("checked");
-    private final ReadOnlyBooleanWrapper valid = new ReadOnlyBooleanWrapper();
-    private final BooleanProperty checked = new SimpleBooleanProperty(this, "checked", true) {
+    private final ReadOnlyBooleanWrapper valid = new ReadOnlyBooleanWrapper(true);
+    private final BooleanProperty checked = new SimpleBooleanProperty(true) {
         @Override
         protected void invalidated() {
             control.pseudoClassStateChanged(CHECKED_PSEUDO_CLASS, get());
