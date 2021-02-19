@@ -5,6 +5,11 @@ import bayern.steinbrecher.checkedElements.CheckableControlBase;
 import bayern.steinbrecher.checkedElements.report.ReportEntry;
 import bayern.steinbrecher.checkedElements.report.ReportType;
 import javafx.beans.binding.Bindings;
+import javafx.beans.binding.BooleanBinding;
+import javafx.beans.binding.DoubleBinding;
+import javafx.beans.binding.DoubleExpression;
+import javafx.beans.binding.IntegerBinding;
+import javafx.beans.binding.IntegerExpression;
 import javafx.beans.property.BooleanProperty;
 import javafx.beans.property.ReadOnlyBooleanProperty;
 import javafx.beans.value.ObservableBooleanValue;
@@ -44,7 +49,38 @@ public class CheckedSpinner<T> extends Spinner<T> implements CheckableControl {
             parsed.ifPresent(factory::setValue);
             return parsed.isEmpty();
         }, getEditor().textProperty())));
+
         ccBase.addReport(new ReportEntry("inputMissing", ReportType.ERROR, valueProperty().isNull()));
+
+        BooleanBinding outOfRange = null;
+        if (factory instanceof SpinnerValueFactory.IntegerSpinnerValueFactory) {
+            var intFactory = (SpinnerValueFactory.IntegerSpinnerValueFactory) factory;
+            IntegerExpression valueExpression = IntegerBinding.integerExpression(intFactory.valueProperty());
+            BooleanBinding tooSmall = valueExpression.lessThan(intFactory.minProperty());
+            BooleanBinding tooGreat = valueExpression.greaterThan(intFactory.maxProperty());
+            outOfRange = intFactory.valueProperty()
+                    .isNotNull()
+                    .and(tooSmall.or(tooGreat));
+        } else if (factory instanceof SpinnerValueFactory.DoubleSpinnerValueFactory) {
+            var doubleFactory = (SpinnerValueFactory.DoubleSpinnerValueFactory) factory;
+            DoubleExpression valueExpression = DoubleBinding.doubleExpression(doubleFactory.valueProperty());
+            BooleanBinding tooSmall = valueExpression.lessThan(doubleFactory.minProperty());
+            if (doubleFactory instanceof CheckedDoubleSpinnerValueFactory) {
+                var checkedDoubleFactory = (CheckedDoubleSpinnerValueFactory) doubleFactory;
+                tooSmall = tooSmall.or(
+                        checkedDoubleFactory.includeMinProperty()
+                                .not()
+                                .and(valueExpression.isEqualTo(doubleFactory.minProperty()))
+                );
+            }
+            BooleanBinding tooGreat = valueExpression.greaterThan(doubleFactory.maxProperty());
+            outOfRange = doubleFactory.valueProperty()
+                    .isNotNull()
+                    .and(tooSmall.or(tooGreat));
+        }
+        if (outOfRange != null) {
+            ccBase.addReport(new ReportEntry("outOfRange", ReportType.ERROR, outOfRange));
+        }
     }
 
     @Override
