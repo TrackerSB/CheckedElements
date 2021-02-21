@@ -84,6 +84,20 @@ public class CheckedSpinner<T> extends Spinner<T> implements CheckableControl {
     }
 
     @Override
+    public void increment(int steps) {
+        if (getValue() != null) {
+            super.increment(steps);
+        }
+    }
+
+    @Override
+    public void decrement(int steps) {
+        if (getValue() != null) {
+            super.decrement(steps);
+        }
+    }
+
+    @Override
     public ObservableList<ReportEntry> getReports() {
         return ccBase.getReports();
     }
