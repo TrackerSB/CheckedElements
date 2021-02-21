@@ -44,13 +44,13 @@ public class CheckedSpinner<T> extends Spinner<T> implements CheckableControl {
     }
 
     private void initProperties(SpinnerValueFactory<T> factory, Function<String, Optional<T>> parser) {
-        ccBase.addReport(new ReportEntry("noNumber", ReportType.ERROR, Bindings.createBooleanBinding(() -> {
+        addReport(new ReportEntry("noNumber", ReportType.ERROR, Bindings.createBooleanBinding(() -> {
             Optional<T> parsed = parser.apply(getEditor().textProperty().get());
             parsed.ifPresent(factory::setValue);
             return parsed.isEmpty();
         }, getEditor().textProperty())));
 
-        ccBase.addReport(new ReportEntry("inputMissing", ReportType.ERROR, valueProperty().isNull()));
+        addReport(new ReportEntry("inputMissing", ReportType.ERROR, valueProperty().isNull()));
 
         BooleanBinding outOfRange = null;
         if (factory instanceof SpinnerValueFactory.IntegerSpinnerValueFactory) {
@@ -79,7 +79,7 @@ public class CheckedSpinner<T> extends Spinner<T> implements CheckableControl {
                     .and(tooSmall.or(tooGreat));
         }
         if (outOfRange != null) {
-            ccBase.addReport(new ReportEntry("outOfRange", ReportType.ERROR, outOfRange));
+            addReport(new ReportEntry("outOfRange", ReportType.ERROR, outOfRange));
         }
     }
 
