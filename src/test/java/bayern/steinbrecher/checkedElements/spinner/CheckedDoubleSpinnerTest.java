@@ -1,11 +1,11 @@
 package bayern.steinbrecher.checkedElements.spinner;
 
 import bayern.steinbrecher.utility.InitUtility;
-import javafx.scene.control.SpinnerValueFactory;
 import org.junit.jupiter.api.BeforeAll;
 import org.junit.jupiter.api.Test;
 
 import static org.junit.jupiter.api.Assertions.assertEquals;
+import static org.junit.jupiter.api.Assertions.assertFalse;
 import static org.junit.jupiter.api.Assertions.assertTrue;
 
 public class CheckedDoubleSpinnerTest {
@@ -15,7 +15,7 @@ public class CheckedDoubleSpinnerTest {
     }
 
     @Test
-    void verify(){
+    void verify() {
         final CheckedDoubleSpinner defaultSpinner = new CheckedDoubleSpinner(0, 1);
         // assertEquals(0, defaultSpinner.getValue()); // FIXME assert fails!
         final CheckedDoubleSpinnerValueFactory defaultSpinnerValueFactory
@@ -35,13 +35,16 @@ public class CheckedDoubleSpinnerTest {
         assertEquals(4.7, includeMinSpinner.getValue());
         includeMinSpinner.increment(100);
         assertEquals(10.5, includeMinSpinner.getValue());
-        includeMinSpinner.decrement(100);
+        assertTrue(includeMinSpinner.isValid());
+        includeMinSpinner.decrement(200);
         assertEquals(-3.2, includeMinSpinner.getValue());
+        assertTrue(includeMinSpinner.isValid());
 
         final CheckedDoubleSpinner excludeMinSpinner = new CheckedDoubleSpinner(-3.2, 10.5, 0.3, 1.1, false);
         assertTrue(excludeMinSpinner.isChecked());
         assertTrue(excludeMinSpinner.isValid());
         excludeMinSpinner.decrement(5);
-        assertEquals(-2.1, excludeMinSpinner.getValue());
+        assertEquals(-3.2, excludeMinSpinner.getValue());
+        assertFalse(excludeMinSpinner.isValid());
     }
 }
