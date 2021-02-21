@@ -1,6 +1,7 @@
 package bayern.steinbrecher.checkedElements.report;
 
 import bayern.steinbrecher.checkedElements.CheckedControl;
+import javafx.beans.binding.BooleanExpression;
 import javafx.beans.property.ReadOnlyBooleanProperty;
 import javafx.beans.value.ObservableBooleanValue;
 import javafx.collections.ObservableList;
@@ -13,19 +14,18 @@ import javafx.scene.control.Skin;
 public interface Reportable {
 
     /**
-     * Returns the property holding whether the current is valid. It is valid if and and only if there are no reports
-     * triggered which are classified as {@link ReportType#ERROR}.
+     * Returns the property holding whether the current input is valid. It is valid iff there are no reports triggered
+     * which are classified as {@link ReportType#ERROR}.
      *
-     * @return The property holding whether the current is valid.
+     * @return The property holding whether the current input is valid.
+     * @see #addReport(ReportEntry)
      */
     ReadOnlyBooleanProperty validProperty();
 
-    /**
-     * Checks whether the current input is valid.
-     *
-     * @return {@code true} only if the current input is valid.
-     */
-    boolean isValid();
+    default boolean isValid(){
+        return validProperty()
+                .get();
+    }
 
     /**
      * Add a further constraint to the list of validity criteria without adding a report. NOTE Use this method in
@@ -45,9 +45,11 @@ public interface Reportable {
     ObservableList<ReportEntry> getReports();
 
     /**
-     * Add a further constraint to the list of validity criteria as well as a report to the list of reports. NOTE Use
-     * this method in subclasses of implementing classes only! Since multiple inheritance is not possible in Java this
-     * class has to be an interface and interfaces are not allowed to have protected members.
+     * Adds a report to the set of reports. If the {@link ReportType} is {@link ReportType#ERROR} the negation of the
+     * {@link BooleanExpression} is added to the set of conditions for validity of the input of this control.  Be careful about cyclic dependencies between the
+     * {@link BooleanExpression}s of the reports. NOTE Use this method in subclasses of implementing classes only! Since
+     * multiple inheritance is not possible in Java this class has to be an interface and interfaces are not allowed to
+     * have protected members.
      *
      * @param report The report to add.
      * @return {@code true} only if the {@link ReportEntry} was added.

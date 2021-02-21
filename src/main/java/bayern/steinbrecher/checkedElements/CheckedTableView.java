@@ -2,7 +2,6 @@ package bayern.steinbrecher.checkedElements;
 
 import bayern.steinbrecher.checkedElements.report.ReportEntry;
 import bayern.steinbrecher.checkedElements.report.Reportable;
-import bayern.steinbrecher.checkedElements.report.ReportableBase;
 import javafx.beans.property.ReadOnlyBooleanProperty;
 import javafx.beans.value.ObservableBooleanValue;
 import javafx.collections.ObservableList;
@@ -17,30 +16,30 @@ import javafx.scene.control.TableView;
  */
 public class CheckedTableView<S> extends TableView<S> implements Reportable {
 
-    private final ReportableBase<CheckedTableView<S>> reportableBase = new ReportableBase<>(this);
+    private final CheckableControlBase<CheckedTableView<S>> ccBase = new CheckableControlBase<>(this);
 
     @Override
     public ReadOnlyBooleanProperty validProperty() {
-        return reportableBase.validProperty();
+        return ccBase.validProperty();
     }
 
     @Override
     public boolean isValid() {
-        return reportableBase.isValid();
+        return ccBase.isValid();
     }
 
     @Override
     public boolean addValidityConstraint(ObservableBooleanValue constraint) {
-        return reportableBase.addValidityConstraint(constraint);
+        return ccBase.addValidityConstraint(constraint);
     }
 
     @Override
     public ObservableList<ReportEntry> getReports() {
-        return reportableBase.getReports();
+        return ccBase.getReports();
     }
 
     @Override
     public boolean addReport(ReportEntry report) {
-        return reportableBase.addReport(report);
+        return ccBase.addReport(report);
     }
 }

@@ -1,11 +1,18 @@
 package bayern.steinbrecher.checkedElements;
 
+import bayern.steinbrecher.checkedElements.report.ReportEntry;
+import bayern.steinbrecher.checkedElements.report.ReportType;
 import bayern.steinbrecher.checkedElements.report.Reportable;
-import bayern.steinbrecher.checkedElements.report.ReportableBase;
+import bayern.steinbrecher.javaUtility.BindingUtility;
+import javafx.beans.InvalidationListener;
 import javafx.beans.property.BooleanProperty;
 import javafx.beans.property.ReadOnlyBooleanProperty;
 import javafx.beans.property.ReadOnlyBooleanWrapper;
+import javafx.beans.property.ReadOnlyListWrapper;
 import javafx.beans.property.SimpleBooleanProperty;
+import javafx.beans.value.ObservableBooleanValue;
+import javafx.collections.FXCollections;
+import javafx.collections.ObservableList;
 import javafx.css.PseudoClass;
 import javafx.scene.Node;
 
@@ -16,15 +23,30 @@ import javafx.scene.Node;
  * @author Stefan Huber
  * @since 0.1
  */
-public class CheckableControlBase<C extends Node & Reportable> extends ReportableBase<C> implements CheckableControl {
+public class CheckableControlBase<C extends Node & Reportable> implements CheckableControl {
     private static final PseudoClass CHECKED_PSEUDO_CLASS = PseudoClass.getPseudoClass("checked");
-    private final ReadOnlyBooleanWrapper valid = new ReadOnlyBooleanWrapper(true);
+    private static final PseudoClass INVALID_PSEUDO_CLASS = PseudoClass.getPseudoClass("invalid");
+
+    private final ReadOnlyBooleanWrapper valid = new ReadOnlyBooleanWrapper(true) {
+        @Override
+        protected void invalidated() {
+            control.pseudoClassStateChanged(INVALID_PSEUDO_CLASS, !get());
+        }
+    };
+    private final ObservableList<ObservableBooleanValue> validityConstraints = FXCollections.observableArrayList();
+    private final ReadOnlyBooleanWrapper validityConstraintsFulfilled = new ReadOnlyBooleanWrapper();
+
+    private final ReadOnlyListWrapper<ReportEntry> reports
+            = new ReadOnlyListWrapper<>(this, "reports", FXCollections.observableArrayList());
+
     private final BooleanProperty checked = new SimpleBooleanProperty(true) {
         @Override
         protected void invalidated() {
+            super.invalidated();
             control.pseudoClassStateChanged(CHECKED_PSEUDO_CLASS, get());
         }
     };
+
     private final C control;
 
     /**
@@ -34,29 +56,48 @@ public class CheckableControlBase<C extends Node & Reportable> extends Reportabl
      * @param control The control to add pseudo classes to.
      */
     public CheckableControlBase(C control) {
-        super(control);
         this.control = control;
         control.getStyleClass().add("checked-control-base");
-        valid.bind(super.validProperty().or(checkedProperty().not()));
+
+        validityConstraints.addListener((InvalidationListener) obs -> {
+            validityConstraintsFulfilled.bind(BindingUtility.reduceAnd(validityConstraints.stream()));
+        });
+        valid.bind(validityConstraintsFulfilled.or(checkedProperty().not()));
+    }
+
+    @Override
+    public ObservableList<ReportEntry> getReports() {
+        return FXCollections.unmodifiableObservableList(reports);
+    }
+
+    @Override
+    public boolean addReport(ReportEntry report) {
+        boolean isDuplicate = reports.stream()
+                .anyMatch(entry -> entry.getMessage().equalsIgnoreCase(report.getMessage()));
+        if (isDuplicate) {
+            throw new IllegalArgumentException(
+                    "A report for \"" + report.getMessage() + "\" is already registered.");
+        } else {
+            boolean gotAdded = reports.add(report);
+            if (gotAdded && report.getType() == ReportType.ERROR) { //FIXME A change of the type breaks the validation.
+                gotAdded &= validityConstraints.add(report.reportTriggeredProperty().not());
+            }
+            return gotAdded;
+        }
     }
 
     @Override
     public ReadOnlyBooleanProperty validProperty() {
-        return valid.getReadOnlyProperty(); // FIXME Have all related validity methods to be overridden as well?
+        return valid.getReadOnlyProperty();
+    }
+
+    @Override
+    public boolean addValidityConstraint(ObservableBooleanValue constraint) {
+        return validityConstraints.add(constraint);
     }
 
     @Override
     public BooleanProperty checkedProperty() {
         return checked;
-    }
-
-    @Override
-    public boolean isChecked() {
-        return checkedProperty().get();
-    }
-
-    @Override
-    public void setChecked(boolean checked) {
-        checkedProperty().set(checked);
     }
 }
