@@ -30,6 +30,7 @@ public class CheckableControlBase<C extends Node & Reportable> implements Checka
     private final ReadOnlyBooleanWrapper valid = new ReadOnlyBooleanWrapper(true) {
         @Override
         protected void invalidated() {
+            super.invalidated();
             control.pseudoClassStateChanged(INVALID_PSEUDO_CLASS, !get());
         }
     };
