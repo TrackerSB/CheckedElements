@@ -68,7 +68,7 @@ publishing {
             pom {
                 name = "CheckedElements"
                 description = "A collection of JavaFX control elements with extended validation mechanisms."
-                url = "https://github.com/TrackerSB/CheckedElements"
+                url = "https://steinbrecher.bayern"
                 licenses {
                     license {
                         name = "The Beer-Ware License (Revision 42)"
@@ -84,7 +84,7 @@ publishing {
                 scm {
                     connection = "scm:git:git://github.com/TrackerSB/CheckedElements.git"
                     developerConnection = "scm:git:ssh://github.com/TrackerSB/CheckedElements.git"
-                    url = "https://steinbrecher.bayern"
+                    url = "https://github.com/TrackerSB/CheckedElements"
                 }
             }
             from components.java
