@@ -5,6 +5,7 @@ import bayern.steinbrecher.checkedElements.report.ReportType;
 import bayern.steinbrecher.checkedElements.report.Reportable;
 import bayern.steinbrecher.javaUtility.BindingUtility;
 import javafx.beans.InvalidationListener;
+import javafx.beans.Observable;
 import javafx.beans.property.BooleanProperty;
 import javafx.beans.property.ReadOnlyBooleanProperty;
 import javafx.beans.property.ReadOnlyBooleanWrapper;
@@ -37,8 +38,10 @@ public class CheckableControlBase<C extends Node & Reportable> implements Checka
     private final ObservableList<ObservableBooleanValue> validityConstraints = FXCollections.observableArrayList();
     private final ReadOnlyBooleanWrapper validityConstraintsFulfilled = new ReadOnlyBooleanWrapper();
 
+    // NOTE 2021-06-06: The extractor is required to ensure updating tooltips listing triggered reports
     private final ReadOnlyListWrapper<ReportEntry> reports
-            = new ReadOnlyListWrapper<>(this, "reports", FXCollections.observableArrayList());
+            = new ReadOnlyListWrapper<>(this, "reports",
+            FXCollections.observableArrayList(re -> new Observable[]{re.reportTriggeredProperty()}));
 
     private final BooleanProperty checked = new SimpleBooleanProperty(true) {
         @Override
