@@ -88,7 +88,7 @@ public class CheckedTextField extends TextField implements CheckableControl {
         emptyContent.bind(textProperty().isEmpty());
         toLongContent.bind(textProperty().length().greaterThan(maxColumnCount));
         ccBase.addReport(new ReportEntry("inputMissing", ReportType.ERROR, emptyProperty()));
-        ccBase.addReport(new ReportEntry("inputToLong", ReportType.ERROR, toLongProperty()));
+        ccBase.addReport(new ReportEntry("inputTooLong", ReportType.ERROR, toLongProperty()));
     }
 
     @Override
