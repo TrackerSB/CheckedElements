@@ -13,7 +13,6 @@ import javafx.scene.layout.Priority;
 import javafx.scene.layout.VBox;
 
 import java.util.List;
-import java.util.ResourceBundle;
 
 /**
  * Represents a dialog showing a list of conditions and whether they are fulfilled.
@@ -29,7 +28,6 @@ public class ConditionReportTable extends Control {
 
     public ConditionReportTable() {
         super();
-        ResourceBundle resources = ResourceBundle.getBundle("bayern.steinbrecher.checkedElements.CheckedElements");
 
         CheckedTableView<ReportEntry> conditionTable = new CheckedTableView<>();
         VBox.setVgrow(conditionTable, Priority.ALWAYS);
@@ -37,10 +35,10 @@ public class ConditionReportTable extends Control {
         conditionTable.itemsProperty()
                 .bind(conditionItems);
         TableColumn<ReportEntry, String> conditionNameColumn
-                = new TableColumn<>(resources.getString("condition"));
-        conditionNameColumn.setCellValueFactory(item -> item.getValue().messageProperty());
+                = new TableColumn<>(ReportEntry.getMessage("condition"));
+        conditionNameColumn.setCellValueFactory(item -> item.getValue().messageKeyProperty());
         TableColumn<ReportEntry, ReportConditionResult> conditionValueColumn
-                = new TableColumn<>(resources.getString("result"));
+                = new TableColumn<>(ReportEntry.getMessage("result"));
         conditionValueColumn.setCellValueFactory(item -> item.getValue().reportResultProperty());
         conditionValueColumn.setCellFactory(column -> new TableCell<>() {
             @Override
@@ -54,7 +52,7 @@ public class ConditionReportTable extends Control {
                         case SKIPPED -> "skipped";
                         case UNKNOWN -> "unknown";
                     };
-                    setText(resources.getString(resultResourceKey));
+                    setText(ReportEntry.getMessage(resultResourceKey));
                     setGraphic(result.getGraphic());
                 }
             }

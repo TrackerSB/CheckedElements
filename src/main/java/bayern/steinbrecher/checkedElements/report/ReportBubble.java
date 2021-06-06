@@ -44,6 +44,7 @@ public final class ReportBubble<C extends Node & Reportable> {
             reportsMessage.set(
                     change.getList()
                             .stream()
+                            .map(ReportEntry::getMessageKey)
                             .map(ReportEntry::getMessage)
                             .collect(Collectors.joining("\n"))
             );

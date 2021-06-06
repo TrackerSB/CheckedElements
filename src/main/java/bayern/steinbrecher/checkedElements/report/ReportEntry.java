@@ -8,6 +8,8 @@ import javafx.beans.property.ReadOnlyStringProperty;
 import javafx.beans.property.ReadOnlyStringWrapper;
 import javafx.beans.value.ObservableValue;
 
+import java.util.ResourceBundle;
+
 /**
  * Represents an immutable entry of a report which can be used with {@link ReportBubble}.
  *
@@ -16,25 +18,47 @@ import javafx.beans.value.ObservableValue;
  */
 public final class ReportEntry {
 
-    private final ReadOnlyStringWrapper message = new ReadOnlyStringWrapper(this, "message");
+    private static final ResourceBundle fallbackResources
+            = ResourceBundle.getBundle("bayern.steinbrecher.checkedElements.CheckedElements");
+    public static ResourceBundle resources;
+    private final ReadOnlyStringWrapper messageKey = new ReadOnlyStringWrapper(this, "message");
     private final ReadOnlyObjectWrapper<ReportType> type = new ReadOnlyObjectWrapper<>(this, "type");
     private final ReadOnlyBooleanWrapper reportTriggered = new ReadOnlyBooleanWrapper(this, "reportTriggered");
     private final ReadOnlyObjectWrapper<ReportConditionResult> reportResult
             = new ReadOnlyObjectWrapper<>(this, "reportResult");
 
-    public ReportEntry(String message, ReportType type, ObservableValue<? extends Boolean> reportTrigger) {
-        this.message.set(message);
+    public ReportEntry(String messageKey, ReportType type, ObservableValue<? extends Boolean> reportTrigger) {
+        this.messageKey.set(messageKey);
         this.type.set(type);
         this.reportTriggered.bind(reportTrigger);
     }
 
-    public ReadOnlyStringProperty messageProperty() {
-        return message.getReadOnlyProperty();
+    /**
+     * @since 0.12
+     */
+    public ReadOnlyStringProperty messageKeyProperty() {
+        return messageKey.getReadOnlyProperty();
     }
 
-    public String getMessage(){
-        return messageProperty()
+    /**
+     * @since 0.12
+     */
+    public String getMessageKey() {
+        return messageKeyProperty()
                 .get();
+    }
+
+    /**
+     * @since 0.12
+     */
+    public static String getMessage(String messageKey) {
+        if (resources != null && resources.containsKey(messageKey)) {
+            return resources.getString(messageKey);
+        }
+        if (fallbackResources.containsKey(messageKey)) {
+            return fallbackResources.getString(messageKey);
+        }
+        return messageKey;
     }
 
     public ReadOnlyObjectProperty<ReportType> typeProperty() {
@@ -55,11 +79,11 @@ public final class ReportEntry {
                 .get();
     }
 
-    public ReadOnlyObjectProperty<ReportConditionResult> reportResultProperty(){
+    public ReadOnlyObjectProperty<ReportConditionResult> reportResultProperty() {
         return reportResult.getReadOnlyProperty();
     }
 
-    public ReportConditionResult getReportResult(){
+    public ReportConditionResult getReportResult() {
         return reportResultProperty()
                 .get();
     }

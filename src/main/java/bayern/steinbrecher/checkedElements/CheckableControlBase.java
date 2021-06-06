@@ -77,10 +77,10 @@ public class CheckableControlBase<C extends Node & Reportable> implements Checka
     @Override
     public boolean addReport(ReportEntry report) {
         boolean isDuplicate = reports.stream()
-                .anyMatch(entry -> entry.getMessage().equalsIgnoreCase(report.getMessage()));
+                .anyMatch(entry -> entry.getMessageKey().equalsIgnoreCase(report.getMessageKey()));
         if (isDuplicate) {
             throw new IllegalArgumentException(
-                    "A report for \"" + report.getMessage() + "\" is already registered.");
+                    "A report for \"" + report.getMessageKey() + "\" is already registered.");
         } else {
             boolean gotAdded = reports.add(report);
             if (gotAdded && report.getType() == ReportType.ERROR) { //FIXME A change of the type breaks the validation.
