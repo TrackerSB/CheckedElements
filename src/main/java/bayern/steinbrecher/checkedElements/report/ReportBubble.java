@@ -1,17 +1,15 @@
 package bayern.steinbrecher.checkedElements.report;
 
-import javafx.beans.property.ListProperty;
 import javafx.beans.property.ReadOnlyStringWrapper;
-import javafx.beans.property.SimpleListProperty;
-import javafx.collections.FXCollections;
 import javafx.collections.ListChangeListener;
+import javafx.collections.transformation.FilteredList;
 import javafx.scene.Node;
 import javafx.scene.control.Tooltip;
 import javafx.util.Pair;
 
 import java.util.Comparator;
 import java.util.Map;
-import java.util.StringJoiner;
+import java.util.stream.Collectors;
 
 /**
  * Represents a bubble like popup showing attached and triggered reports of a control.It is meant for being used for
@@ -33,8 +31,7 @@ public final class ReportBubble<C extends Node & Reportable> {
             ReportType.INFO, new Pair<>("#80bfff", "black"),
             ReportType.UNDEFINED, new Pair<>("#d9d9d9", "black")
     );
-    private final ListProperty<ReportEntry> triggeredReports
-            = new SimpleListProperty<>(FXCollections.observableArrayList());
+    private final FilteredList<ReportEntry> triggeredReports;
     private final ReadOnlyStringWrapper reportsMessage = new ReadOnlyStringWrapper();
     private final Tooltip bubble = new Tooltip();
 
@@ -42,26 +39,20 @@ public final class ReportBubble<C extends Node & Reportable> {
         bubble.textProperty()
                 .bind(reportsMessage);
 
-        reportable.getReports()
-                .addListener((ListChangeListener.Change<? extends ReportEntry> change) -> {
-                    while (change.next()) {
-                        triggeredReports.removeAll(change.getRemoved());
-                        change.getAddedSubList()
-                                .stream()
-                                .filter(ReportEntry::isReportTriggered)
-                                .forEach(triggeredReports::add);
-                    }
-                });
-        triggeredReports.addListener((obs, oldVal, newVal) -> {
-            StringJoiner reportBuilder = new StringJoiner("\n");
-            newVal.forEach(reportEntry -> reportBuilder.add(reportEntry.getMessage()));
-            reportsMessage.set(reportBuilder.toString());
+        triggeredReports = new FilteredList<>(reportable.getReports(), ReportEntry::isReportTriggered);
+        triggeredReports.addListener((ListChangeListener<? super ReportEntry>) change -> {
+            reportsMessage.set(
+                    change.getList()
+                            .stream()
+                            .map(ReportEntry::getMessage)
+                            .collect(Collectors.joining("\n"))
+            );
         });
-        triggeredReports.emptyProperty()
-                .not()
-                .and(reportable.validProperty().not())
-                .addListener((obs, oldVal, newVal) -> {
-                    if (newVal) {
+        reportsMessage.isEmpty()
+                .addListener((obs, wasEmpty, isEmpty) -> {
+                    if(isEmpty){
+                        Tooltip.uninstall(reportable, bubble);
+                    } else {
                         ReportType bubbleType = triggeredReports
                                 .stream()
                                 .map(ReportEntry::getType)
@@ -75,8 +66,6 @@ public final class ReportBubble<C extends Node & Reportable> {
                                 + "-fx-text-fill: " + scheme.getValue());
 
                         Tooltip.install(reportable, bubble);
-                    } else {
-                        Tooltip.uninstall(reportable, bubble);
                     }
                 });
     }
