@@ -26,6 +26,9 @@ tasks.withType(JavaCompile) {
     options.encoding = "UTF-8"
 }
 
+sourceCompatibility = 16
+targetCompatibility = 16
+
 java {
     modularity.inferModulePath = true
     withSourcesJar()
@@ -37,7 +40,7 @@ test {
 }
 
 javafx {
-    version = "14"
+    version = "$sourceCompatibility"
     modules = [
             "javafx.controls",
             "javafx.fxml",
