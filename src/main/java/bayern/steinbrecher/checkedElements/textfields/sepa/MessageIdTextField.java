@@ -33,7 +33,7 @@ public final class MessageIdTextField extends SpecificRegexTextField {
     public MessageIdTextField(String text) {
         super(MessageId.MAX_CHAR_MESSAGE_ID, text, MessageId.MESSAGE_ID_REGEX);
         invalidMessageId.bind(Bindings.createBooleanBinding(
-                () -> new MessageId(textProperty().get()).isValid(), textProperty()));
+                () -> !new MessageId(textProperty().get()).isValid(), textProperty()));
         addReport(new ReportEntry("invalidMessageId", ReportType.ERROR, invalidMessageId));
         getStyleClass().add("messageIdTextField");
     }

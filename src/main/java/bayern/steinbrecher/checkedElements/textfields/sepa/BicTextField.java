@@ -47,7 +47,7 @@ public class BicTextField extends SpecificRegexTextField {
         super(maxColumnCount, text, BIC.BIC_REGEX, false);
         getStyleClass().add("bic-textfield");
         invalidBic.bind(Bindings.createBooleanBinding(
-                () -> new BIC(textProperty().get()).isValid(), textProperty()));
+                () -> !new BIC(textProperty().get()).isValid(), textProperty()));
         initProperties();
     }
 

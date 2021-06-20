@@ -34,7 +34,7 @@ public final class IbanTextField extends SpecificRegexTextField {
     public IbanTextField(String text) {
         super(IBAN.MAX_CHAR_IBAN, text, IBAN.IBAN_REGEX, true);
         invalidIban.bind(Bindings.createBooleanBinding(
-                () -> new IBAN(textProperty().get()).isValid(), textProperty()));
+                () -> !new IBAN(textProperty().get()).isValid(), textProperty()));
         addReport(new ReportEntry("invalidIban", ReportType.ERROR, invalidIban));
         getStyleClass().add("iban-textfield");
     }

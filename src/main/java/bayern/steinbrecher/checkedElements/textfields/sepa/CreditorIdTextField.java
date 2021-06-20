@@ -31,7 +31,7 @@ public final class CreditorIdTextField extends CheckedSepaTextField {
     public CreditorIdTextField(String text) {
         super(Integer.MAX_VALUE, text);
         invalidCreditorId.bind(Bindings.createBooleanBinding(
-                () -> new CreditorId(textProperty().get()).isValid(), textProperty()));
+                () -> !new CreditorId(textProperty().get()).isValid(), textProperty()));
         addReport(new ReportEntry("invalidCreditorId", ReportType.ERROR, invalidCreditorId));
         getStyleClass().add("creditorid-textfield");
     }
