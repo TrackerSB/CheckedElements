@@ -4,7 +4,7 @@ import bayern.steinbrecher.checkedElements.report.ReportEntry;
 import bayern.steinbrecher.checkedElements.report.ReportType;
 import bayern.steinbrecher.checkedElements.textfields.CheckedRegexTextField;
 import bayern.steinbrecher.checkedElements.textfields.SpecificRegexTextField;
-import bayern.steinbrecher.javaUtility.SepaUtility;
+import bayern.steinbrecher.sepaxmlgenerator.IBAN;
 import javafx.beans.binding.Bindings;
 import javafx.beans.property.BooleanProperty;
 import javafx.beans.property.SimpleBooleanProperty;
@@ -32,9 +32,9 @@ public final class IbanTextField extends SpecificRegexTextField {
      * @param text The initial content.
      */
     public IbanTextField(String text) {
-        super(SepaUtility.MAX_CHAR_IBAN, text, SepaUtility.IBAN_REGEX, true);
+        super(IBAN.MAX_CHAR_IBAN, text, IBAN.IBAN_REGEX, true);
         invalidIban.bind(Bindings.createBooleanBinding(
-                () -> !SepaUtility.isValidIban(textProperty().get()), textProperty()));
+                () -> new IBAN(textProperty().get()).isValid(), textProperty()));
         addReport(new ReportEntry("invalidIban", ReportType.ERROR, invalidIban));
         getStyleClass().add("iban-textfield");
     }

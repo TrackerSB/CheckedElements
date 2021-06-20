@@ -6,6 +6,7 @@ module bayern.steinbrecher.CheckedElements {
     exports bayern.steinbrecher.checkedElements.spinner;
     exports bayern.steinbrecher.checkedElements.textfields;
 
+    requires bayern.steinbrecher.SepaXMLGenerator;
     requires bayern.steinbrecher.Utility;
     requires java.logging;
     requires java.xml;

@@ -2,7 +2,7 @@ package bayern.steinbrecher.checkedElements.textfields.sepa;
 
 import bayern.steinbrecher.checkedElements.report.ReportEntry;
 import bayern.steinbrecher.checkedElements.report.ReportType;
-import bayern.steinbrecher.javaUtility.SepaUtility;
+import bayern.steinbrecher.sepaxmlgenerator.CreditorId;
 import javafx.beans.binding.Bindings;
 import javafx.beans.property.BooleanProperty;
 import javafx.beans.property.SimpleBooleanProperty;
@@ -31,7 +31,7 @@ public final class CreditorIdTextField extends CheckedSepaTextField {
     public CreditorIdTextField(String text) {
         super(Integer.MAX_VALUE, text);
         invalidCreditorId.bind(Bindings.createBooleanBinding(
-                () -> !SepaUtility.isValidCreditorId(textProperty().get()), textProperty()));
+                () -> new CreditorId(textProperty().get()).isValid(), textProperty()));
         addReport(new ReportEntry("invalidCreditorId", ReportType.ERROR, invalidCreditorId));
         getStyleClass().add("creditorid-textfield");
     }

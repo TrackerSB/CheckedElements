@@ -10,10 +10,14 @@ version "0.13-rc.1-SNAPSHOT"
 
 repositories {
     mavenCentral()
+    maven {
+        url "https://oss.sonatype.org/content/repositories/snapshots"
+    }
 }
 
 dependencies {
-    implementation "bayern.steinbrecher:JavaUtility:0.17"
+    implementation "bayern.steinbrecher:JavaUtility:0.18-rc.9-SNAPSHOT"
+    implementation "bayern.steinbrecher:SepaXMLGenerator:0.1-rc.6-SNAPSHOT"
 
     testImplementation "org.junit.jupiter:junit-jupiter-api:5.7.0"
     testImplementation "org.junit.jupiter:junit-jupiter-params:5.7.0"
@@ -33,6 +37,11 @@ java {
     modularity.inferModulePath = true
     withSourcesJar()
     withJavadocJar()
+}
+
+// Workaround (https://discuss.gradle.org/t/gradle-7-0-configuration-with-name-testcompile-not-found/39921)
+configurations {
+    testCompile
 }
 
 test {

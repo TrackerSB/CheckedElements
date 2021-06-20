@@ -3,7 +3,7 @@ package bayern.steinbrecher.checkedElements.textfields.sepa;
 import bayern.steinbrecher.checkedElements.report.ReportEntry;
 import bayern.steinbrecher.checkedElements.report.ReportType;
 import bayern.steinbrecher.checkedElements.textfields.SpecificRegexTextField;
-import bayern.steinbrecher.javaUtility.SepaUtility;
+import bayern.steinbrecher.sepaxmlgenerator.BIC;
 import javafx.beans.binding.Bindings;
 import javafx.beans.property.BooleanProperty;
 import javafx.beans.property.SimpleBooleanProperty;
@@ -44,10 +44,10 @@ public class BicTextField extends SpecificRegexTextField {
      * @param text The initial content.
      */
     public BicTextField(int maxColumnCount, String text) {
-        super(maxColumnCount, text, SepaUtility.BIC_REGEX, false);
+        super(maxColumnCount, text, BIC.BIC_REGEX, false);
         getStyleClass().add("bic-textfield");
         invalidBic.bind(Bindings.createBooleanBinding(
-                () -> !SepaUtility.isValidBic(textProperty().get()), textProperty()));
+                () -> new BIC(textProperty().get()).isValid(), textProperty()));
         initProperties();
     }
 

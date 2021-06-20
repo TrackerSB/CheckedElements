@@ -3,7 +3,7 @@ package bayern.steinbrecher.checkedElements.textfields.sepa;
 import bayern.steinbrecher.checkedElements.report.ReportEntry;
 import bayern.steinbrecher.checkedElements.report.ReportType;
 import bayern.steinbrecher.checkedElements.textfields.SpecificRegexTextField;
-import bayern.steinbrecher.javaUtility.SepaUtility;
+import bayern.steinbrecher.sepaxmlgenerator.MessageId;
 import javafx.beans.binding.Bindings;
 import javafx.beans.property.BooleanProperty;
 import javafx.beans.property.SimpleBooleanProperty;
@@ -31,9 +31,9 @@ public final class MessageIdTextField extends SpecificRegexTextField {
      * @param text The initial content.
      */
     public MessageIdTextField(String text) {
-        super(SepaUtility.MAX_CHAR_MESSAGE_ID, text, SepaUtility.MESSAGE_ID_REGEX);
+        super(MessageId.MAX_CHAR_MESSAGE_ID, text, MessageId.MESSAGE_ID_REGEX);
         invalidMessageId.bind(Bindings.createBooleanBinding(
-                () -> !SepaUtility.isValidMessageId(textProperty().get()), textProperty()));
+                () -> new MessageId(textProperty().get()).isValid(), textProperty()));
         addReport(new ReportEntry("invalidMessageId", ReportType.ERROR, invalidMessageId));
         getStyleClass().add("messageIdTextField");
     }

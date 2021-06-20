@@ -1,7 +1,7 @@
 package bayern.steinbrecher.checkedElements.buttons;
 
 import bayern.steinbrecher.javaUtility.DialogCreationException;
-import bayern.steinbrecher.javaUtility.DialogUtility;
+import bayern.steinbrecher.javaUtility.DialogGenerator;
 import javafx.application.Platform;
 import javafx.beans.property.SimpleStringProperty;
 import javafx.beans.property.StringProperty;
@@ -24,6 +24,7 @@ import java.util.logging.Logger;
 public class HelpButton extends Button {
 
     public static final String CSS_CLASS_HELP_BUTTON = "help-button";
+    private static final DialogGenerator DIALOG_GENERATOR = new DialogGenerator();
     private static final Logger LOGGER = Logger.getLogger(HelpButton.class.getName());
     private static final ResourceBundle RESOURCE_BUNDLE
             = ResourceBundle.getBundle("bayern.steinbrecher.checkedElements.CheckedElements");
@@ -53,7 +54,7 @@ public class HelpButton extends Button {
         String help = RESOURCE_BUNDLE.getString("help");
         String findHelp = RESOURCE_BUNDLE.getString("findHelp");
         try {
-            Alert alert = DialogUtility.createMessageAlert(getHelpMessage(), findHelp, help, help);
+            Alert alert = DIALOG_GENERATOR.createMessageAlert(getHelpMessage(), findHelp, help, help);
             Platform.runLater(alert::show);
         } catch (DialogCreationException ex) {
             LOGGER.log(Level.WARNING, "Could not show help message dialog", ex);
