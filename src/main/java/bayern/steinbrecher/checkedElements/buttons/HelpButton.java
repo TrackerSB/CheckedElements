@@ -1,7 +1,7 @@
 package bayern.steinbrecher.checkedElements.buttons;
 
 import bayern.steinbrecher.javaUtility.DialogCreationException;
-import bayern.steinbrecher.javaUtility.DialogGenerator;
+import bayern.steinbrecher.javaUtility.DialogFactory;
 import javafx.application.Platform;
 import javafx.beans.property.SimpleStringProperty;
 import javafx.beans.property.StringProperty;
@@ -24,7 +24,7 @@ import java.util.logging.Logger;
 public class HelpButton extends Button {
 
     public static final String CSS_CLASS_HELP_BUTTON = "help-button";
-    private static final DialogGenerator DIALOG_GENERATOR = new DialogGenerator();
+    private static final DialogFactory DIALOG_GENERATOR = new DialogFactory();
     private static final Logger LOGGER = Logger.getLogger(HelpButton.class.getName());
     private static final ResourceBundle RESOURCE_BUNDLE
             = ResourceBundle.getBundle("bayern.steinbrecher.checkedElements.CheckedElements");
