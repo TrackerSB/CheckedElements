@@ -36,14 +36,14 @@ public class CheckableControlBase<C extends Node & Reportable> implements Checka
         }
     };
     private final ObservableList<ObservableBooleanValue> validityConstraints = FXCollections.observableArrayList();
-    private final ReadOnlyBooleanWrapper validityConstraintsFulfilled = new ReadOnlyBooleanWrapper();
+    private final ReadOnlyBooleanWrapper validityConstraintsFulfilled = new ReadOnlyBooleanWrapper(true);
 
     // NOTE 2021-06-06: The extractor is required to ensure updating tooltips listing triggered reports
     private final ReadOnlyListWrapper<ReportEntry> reports
             = new ReadOnlyListWrapper<>(this, "reports",
             FXCollections.observableArrayList(re -> new Observable[]{re.reportTriggeredProperty()}));
 
-    private final BooleanProperty checked = new SimpleBooleanProperty(true) {
+    private final BooleanProperty checked = new SimpleBooleanProperty() {
         @Override
         protected void invalidated() {
             super.invalidated();
@@ -66,6 +66,10 @@ public class CheckableControlBase<C extends Node & Reportable> implements Checka
         validityConstraints.addListener((InvalidationListener) obs -> {
             validityConstraintsFulfilled.bind(BindingUtility.reduceAnd(validityConstraints.stream()));
         });
+        // Ensure correct initial state
+        validityConstraints.add(BindingUtility.TRUE_BINDING);
+        validityConstraints.remove(0);
+
         valid.bind(validityConstraintsFulfilled.or(checkedProperty().not()));
     }
 
