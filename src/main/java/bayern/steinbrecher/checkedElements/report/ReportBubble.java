@@ -1,6 +1,8 @@
 package bayern.steinbrecher.checkedElements.report;
 
+import javafx.beans.Observable;
 import javafx.beans.property.ReadOnlyStringWrapper;
+import javafx.collections.FXCollections;
 import javafx.collections.ListChangeListener;
 import javafx.collections.transformation.FilteredList;
 import javafx.scene.Node;
@@ -39,7 +41,10 @@ public final class ReportBubble<C extends Node & Reportable> {
         bubble.textProperty()
                 .bind(reportsMessage);
 
-        triggeredReports = new FilteredList<>(reportable.getReports(), ReportEntry::isReportTriggered);
+        // Ensure the filtered list is updated on report triggered property changes by using an extractor
+        triggeredReports = FXCollections.<ReportEntry>observableArrayList(
+                        re -> new Observable[]{re.reportTriggeredProperty()})
+                .filtered(ReportEntry::isReportTriggered);
         triggeredReports.addListener((ListChangeListener<? super ReportEntry>) change -> {
             reportsMessage.set(
                     change.getList()
@@ -49,9 +54,10 @@ public final class ReportBubble<C extends Node & Reportable> {
                             .collect(Collectors.joining("\n"))
             );
         });
+        triggeredReports.addAll(reportable.getReports());
         reportsMessage.isEmpty()
                 .addListener((obs, wasEmpty, isEmpty) -> {
-                    if(isEmpty){
+                    if (isEmpty) {
                         Tooltip.uninstall(reportable, bubble);
                     } else {
                         ReportType bubbleType = triggeredReports
