@@ -4,6 +4,7 @@ import javafx.beans.Observable;
 import javafx.beans.property.ReadOnlyStringWrapper;
 import javafx.collections.FXCollections;
 import javafx.collections.ListChangeListener;
+import javafx.collections.ObservableList;
 import javafx.collections.transformation.FilteredList;
 import javafx.scene.Node;
 import javafx.scene.control.Tooltip;
@@ -33,7 +34,7 @@ public final class ReportBubble<C extends Node & Reportable> {
             ReportType.INFO, new Pair<>("#80bfff", "black"),
             ReportType.UNDEFINED, new Pair<>("#d9d9d9", "black")
     );
-    private final FilteredList<ReportEntry> triggeredReports;
+    private final FilteredList<ReportEntry> triggeredReportsUnmodifiable;
     private final ReadOnlyStringWrapper reportsMessage = new ReadOnlyStringWrapper();
     private final Tooltip bubble = new Tooltip();
 
@@ -42,25 +43,24 @@ public final class ReportBubble<C extends Node & Reportable> {
                 .bind(reportsMessage);
 
         // Ensure the filtered list is updated on report triggered property changes by using an extractor
-        triggeredReports = FXCollections.<ReportEntry>observableArrayList(
-                        re -> new Observable[]{re.reportTriggeredProperty()})
-                .filtered(ReportEntry::isReportTriggered);
-        triggeredReports.addListener((ListChangeListener<? super ReportEntry>) change -> {
-            reportsMessage.set(
-                    change.getList()
-                            .stream()
-                            .map(ReportEntry::getMessageKey)
-                            .map(ReportEntry::getMessage)
-                            .collect(Collectors.joining("\n"))
-            );
-        });
-        triggeredReports.addAll(reportable.getReports());
+        ObservableList<ReportEntry> observableReports
+                = FXCollections.observableArrayList(re -> new Observable[]{re.reportTriggeredProperty()});
+        triggeredReportsUnmodifiable = observableReports.filtered(ReportEntry::isReportTriggered);
+        triggeredReportsUnmodifiable.addListener((ListChangeListener<? super ReportEntry>) change ->
+                reportsMessage.set(
+                        change.getList()
+                                .stream()
+                                .map(ReportEntry::getMessageKey)
+                                .map(ReportEntry::getMessage)
+                                .collect(Collectors.joining("\n"))
+                ));
+        observableReports.addAll(reportable.getReports());
         reportsMessage.isEmpty()
                 .addListener((obs, wasEmpty, isEmpty) -> {
                     if (isEmpty) {
                         Tooltip.uninstall(reportable, bubble);
                     } else {
-                        ReportType bubbleType = triggeredReports
+                        ReportType bubbleType = triggeredReportsUnmodifiable
                                 .stream()
                                 .map(ReportEntry::getType)
                                 .distinct()
