@@ -16,8 +16,8 @@ repositories {
 }
 
 dependencies {
-    implementation "bayern.steinbrecher:JavaUtility:0.18-rc.12-SNAPSHOT"
-    implementation "bayern.steinbrecher:SepaXMLGenerator:0.1-rc.15-SNAPSHOT"
+    implementation "bayern.steinbrecher:JavaUtility:0.18-rc.13-SNAPSHOT"
+    implementation "bayern.steinbrecher:SepaXMLGenerator:0.1-rc.17-SNAPSHOT"
 
     testImplementation 'org.junit.jupiter:junit-jupiter-api:5.8.1'
     testImplementation 'org.junit.jupiter:junit-jupiter-params:5.8.1'
