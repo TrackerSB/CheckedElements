@@ -43,7 +43,7 @@ public class CheckableControlBase<C extends Node & Reportable> implements Checka
             = new ReadOnlyListWrapper<>(this, "reports",
             FXCollections.observableArrayList(re -> new Observable[]{re.reportTriggeredProperty()}));
 
-    private final BooleanProperty checked = new SimpleBooleanProperty() {
+    private final BooleanProperty checked = new SimpleBooleanProperty(true) {
         @Override
         protected void invalidated() {
             super.invalidated();
