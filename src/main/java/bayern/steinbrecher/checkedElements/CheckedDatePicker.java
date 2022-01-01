@@ -17,10 +17,8 @@ import java.time.LocalDate;
 import java.time.format.DateTimeFormatter;
 import java.time.format.DateTimeParseException;
 import java.time.format.FormatStyle;
-import java.util.Arrays;
 import java.util.logging.Level;
 import java.util.logging.Logger;
-import java.util.stream.Collectors;
 
 /**
  * Represents a DatePicker which sets a css class attribute when it is empty or an invalid date is inserted.
@@ -72,7 +70,6 @@ public class CheckedDatePicker extends DatePicker implements CheckableControl {
 
         ObjectBinding<LocalDate> executionDateBinding = Bindings.createObjectBinding(() -> {
             String dateToParse = getEditor().textProperty().get();
-            LocalDate newDate = null;
 
             String[] dateParts = dateToParse.split("\\.");
             //CHECKSTYLE.OFF: MagicNumber - Every date consists of 3 elements (year, month, day)
@@ -80,8 +77,10 @@ public class CheckedDatePicker extends DatePicker implements CheckableControl {
                 //CHECKSTYLE.ON: MagicNumber
                 dateParts[0] = (dateParts[0].length() < 2 ? "0" : "") + dateParts[0];
                 dateParts[1] = (dateParts[1].length() < 2 ? "0" : "") + dateParts[1];
-                dateToParse = Arrays.stream(dateParts).collect(Collectors.joining("."));
+                dateToParse = String.join(".", dateParts);
             }
+
+            LocalDate newDate = null;
             if (!dateToParse.isEmpty()) {
                 try {
                     newDate = LocalDate.parse(dateToParse, DateTimeFormatter.ofLocalizedDate(FormatStyle.SHORT));
@@ -89,7 +88,7 @@ public class CheckedDatePicker extends DatePicker implements CheckableControl {
                     try {
                         newDate = LocalDate.parse(dateToParse, DateTimeFormatter.ofLocalizedDate(FormatStyle.MEDIUM));
                     } catch (DateTimeParseException ex2) {
-                        LOGGER.log(Level.WARNING,
+                        LOGGER.log(Level.FINE,
                                 dateToParse + " can neither be parsed by FormatStyle.SHORT nor FormatStyle.MEDIUM.",
                                 ex2);
                     }
