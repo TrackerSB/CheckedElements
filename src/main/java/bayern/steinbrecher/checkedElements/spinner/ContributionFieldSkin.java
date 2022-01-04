@@ -18,8 +18,9 @@ public class ContributionFieldSkin extends SkinBase<ContributionField> {
                                     double amountToStepBy, boolean includeMinValue) {
         super(control);
 
-        contributionSpinner = new CheckedDoubleSpinner(
-                minValue, maxValue, initialValue, amountToStepBy, includeMinValue);
+        contributionSpinner = new CheckedDoubleSpinner(includeMinValue);
+        contributionSpinner.setValueFactory(new CheckedDoubleSpinnerValueFactory(
+                minValue, maxValue, initialValue, amountToStepBy, includeMinValue));
         contributionSpinner.setEditable(true);
 
         HBox row = new HBox(contributionSpinner, colorPicker);

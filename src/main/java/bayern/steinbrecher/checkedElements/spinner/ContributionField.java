@@ -41,7 +41,7 @@ public class ContributionField extends Control implements CheckableControl {
      * 0, the maximum value is 5000, the initial value is 10 and the amountToStepBy is 1. The default color associated
      * is {@link Color#TRANSPARENT}.
      *
-     * @see CheckedDoubleSpinner#CheckedDoubleSpinner(double, double, double, double)
+     * @see CheckedDoubleSpinnerValueFactory#CheckedDoubleSpinnerValueFactory(double, double, double, double)
      */
     public ContributionField(double minValue, double maxValue, double initialValue, double amountToStepBy,
                              boolean includeMinValue) {
