@@ -2,7 +2,6 @@ package bayern.steinbrecher.checkedElements.spinner;
 
 import java.util.Optional;
 import java.util.function.Function;
-import javafx.beans.NamedArg;
 
 /**
  * Represents a spinner for double values which sets a css attribute when the inserted value is not valid.
@@ -21,62 +20,10 @@ public class CheckedDoubleSpinner extends CheckedSpinner<Double> {
     };
 
     /**
-     * Constructs a new {@link CheckedDoubleSpinner}.
-     *
-     * @param initialValue The value of the Spinner when first instantiated, must be within the bounds of the min and
-     * max arguments, or else the min value will be used.
-     * @param amountToStepBy The amount to increment or decrement by, per step.
+     * @since 0.13
      */
-    public CheckedDoubleSpinner(@NamedArg("initialValue") double initialValue,
-            @NamedArg("amountToStepBy") double amountToStepBy) {
-        this(Double.MIN_VALUE, initialValue, amountToStepBy);
-    }
-
-    /**
-     * Constructs a new {@link CheckedDoubleSpinner}.
-     *
-     * @param min The minimum allowed value.
-     * @param initialValue The value of the Spinner when first instantiated, must be within the bounds of the min and
-     * max arguments, or else the min value will be used.
-     * @param amountToStepBy The amount to increment or decrement by, per step.
-     */
-    public CheckedDoubleSpinner(@NamedArg("min") double min,
-            @NamedArg("initialValue") double initialValue,
-            @NamedArg("amountToStepBy") double amountToStepBy) {
-        this(min, Double.MAX_VALUE, initialValue, amountToStepBy);
-    }
-
-    /**
-     * Constructs a new {@link CheckedDoubleSpinner}.
-     *
-     * @param min The minimum allowed value.
-     * @param max The maximum allowed value.
-     * @param initialValue The value of the Spinner when first instantiated, must be within the bounds of the min and
-     * max arguments, or else the min value will be used.
-     * @param amountToStepBy The amount to increment or decrement by, per step.
-     */
-    public CheckedDoubleSpinner(@NamedArg("min") double min,
-            @NamedArg("max") double max,
-            @NamedArg("initialValue") double initialValue,
-            @NamedArg("amountToStepBy") double amountToStepBy) {
-        this(min, max, initialValue, amountToStepBy, true);
-    }
-
-    /**
-     * Constructs a new {@link CheckedDoubleSpinner}.
-     *
-     * @param min The minimum allowed value.
-     * @param max The maximum allowed value.
-     * @param initialValue The value of the Spinner when first instantiated, must be within the bounds of the min and
-     * max arguments, or else the min value will be used.
-     * @param amountToStepBy The amount to increment or decrement by, per step.
-     * @param includeMin {@code true} only if the minimum value has to be included in the range of allowed values.
-     */
-    public CheckedDoubleSpinner(@NamedArg("min") double min,
-            @NamedArg("max") double max,
-            @NamedArg("initialValue") double initialValue,
-            @NamedArg("amountToStepBy") double amountToStepBy,
-            @NamedArg("includeMin") boolean includeMin) {
-        super(new CheckedDoubleSpinnerValueFactory(min, max, initialValue, amountToStepBy, includeMin), PARSE_FUNCTION);
+    public CheckedDoubleSpinner(boolean includeMin) {
+        super(new CheckedDoubleSpinnerValueFactory(Double.MIN_VALUE, Double.MAX_VALUE, 0d, 1d, includeMin),
+                PARSE_FUNCTION);
     }
 }

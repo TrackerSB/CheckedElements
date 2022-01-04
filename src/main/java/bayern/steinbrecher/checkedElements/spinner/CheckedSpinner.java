@@ -27,7 +27,7 @@ import java.util.function.Function;
  * @author Stefan Huber
  * @since 0.1
  */
-public class CheckedSpinner<T> extends Spinner<T> implements CheckableControl {
+public abstract class CheckedSpinner<T> extends Spinner<T> implements CheckableControl {
 
     private final CheckableControlBase<CheckedSpinner<T>> ccBase = new CheckableControlBase<>(this);
 
@@ -37,7 +37,7 @@ public class CheckedSpinner<T> extends Spinner<T> implements CheckableControl {
      * @param factory The factory generating values.
      * @param parser  The function to parse the content of the {@link Spinner}.
      */
-    public CheckedSpinner(SpinnerValueFactory<T> factory, Function<String, Optional<T>> parser) {
+    protected CheckedSpinner(SpinnerValueFactory<T> factory, Function<String, Optional<T>> parser) {
         super(factory);
         initProperties(factory, parser);
         getStyleClass().add("checked-spinner");
