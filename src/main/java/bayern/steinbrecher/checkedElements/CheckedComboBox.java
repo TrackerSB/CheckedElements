@@ -18,7 +18,7 @@ import javafx.scene.control.ComboBox;
  * @author Stefan Huber
  * @since 0.1
  */
-public class CheckedComboBox<T> extends ComboBox<T> implements CheckedControl {
+public class CheckedComboBox<T> extends ComboBox<T> implements CheckableControl {
 
     private final CheckableControlBase<CheckedComboBox<T>> ccBase = new CheckableControlBase<>(this);
     private final BooleanProperty nothingSelected = new SimpleBooleanProperty(this, "nothingSelected");
@@ -65,7 +65,7 @@ public class CheckedComboBox<T> extends ComboBox<T> implements CheckedControl {
     }
 
     @Override
-    public ReadOnlyBooleanProperty checkedProperty() {
+    public BooleanProperty checkedProperty() {
         return ccBase.checkedProperty();
     }
 
