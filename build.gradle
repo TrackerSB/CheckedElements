@@ -16,7 +16,7 @@ repositories {
 }
 
 dependencies {
-    implementation "bayern.steinbrecher:JavaUtility:0.19-rc.1-SNAPSHOT"
+    implementation "bayern.steinbrecher:JavaUtility:0.19-rc.2-SNAPSHOT"
     implementation "bayern.steinbrecher:SepaXMLGenerator:0.1-rc.27-SNAPSHOT"
 
     testImplementation 'org.junit.jupiter:junit-jupiter-api:5.9.2'
